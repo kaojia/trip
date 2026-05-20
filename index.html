@@ -1,0 +1,1721 @@
+﻿<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>歐洲旅行計畫 | 荷蘭・比利時・法國</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&family=Noto+Serif+TC:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#0EA5E9',
+                        secondary: '#38BDF8',
+                        accent: '#F97316',
+                        surface: '#F0F9FF',
+                        ink: '#0C4A6E',
+                        muted: '#475569',
+                    },
+                    fontFamily: {
+                        serif: ['Noto Serif TC', 'serif'],
+                        sans: ['Noto Sans TC', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+        .aurora-bg {
+            background: linear-gradient(135deg, #0EA5E9 0%, #38BDF8 25%, #7DD3FC 50%, #F0F9FF 75%, #FED7AA 100%);
+            background-size: 400% 400%;
+            animation: aurora 12s ease infinite;
+        }
+        @keyframes aurora {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        .checklist-item input[type="checkbox"]:checked + label {
+            text-decoration: line-through;
+            opacity: 0.6;
+        }
+        .timeline-dot {
+            position: relative;
+        }
+        .timeline-dot::before {
+            content: '';
+            position: absolute;
+            left: -29px;
+            top: 8px;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #0EA5E9;
+            border: 3px solid #F0F9FF;
+            box-shadow: 0 0 0 2px #0EA5E9;
+        }
+        .progress-ring {
+            transition: stroke-dashoffset 0.5s ease;
+        }
+        .day-detail {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease-out, opacity 0.3s ease;
+            opacity: 0;
+        }
+        .day-detail.open {
+            max-height: 2000px;
+            opacity: 1;
+            transition: max-height 0.6s ease-in, opacity 0.3s ease;
+        }
+        .day-toggle svg.chevron {
+            transition: transform 0.3s ease;
+        }
+        .day-toggle.active svg.chevron {
+            transform: rotate(180deg);
+        }
+    </style>
+</head>
+<body class="bg-surface font-sans text-ink min-h-screen">
+
+    <!-- Navigation -->
+    <nav class="fixed top-4 left-4 right-4 z-50 bg-white/80 backdrop-blur-md rounded-2xl shadow-lg px-4 md:px-6 py-3 flex items-center justify-between">
+        <div class="flex items-center gap-2">
+            <svg class="w-6 h-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/>
+            </svg>
+            <span class="font-serif font-semibold text-lg" data-i18n="nav_title">歐洲旅行計畫</span>
+        </div>
+        <div class="hidden md:flex items-center gap-6 text-sm font-medium text-muted">
+            <a href="#itinerary" class="hover:text-primary transition-colors duration-200 cursor-pointer" data-i18n="nav_itinerary">行程</a>
+            <a href="#detail" class="hover:text-primary transition-colors duration-200 cursor-pointer" data-i18n="nav_detail">詳細</a>
+            <a href="#checklist" class="hover:text-primary transition-colors duration-200 cursor-pointer" data-i18n="nav_checklist">清單</a>
+            <a href="#timeline" class="hover:text-primary transition-colors duration-200 cursor-pointer" data-i18n="nav_timeline">時間軸</a>
+        </div>
+        <div class="flex items-center gap-3">
+            <span class="text-xs text-muted hidden sm:inline">6/13 - 6/20</span>
+            <span class="inline-flex items-center px-2 py-1 rounded-full bg-primary/10 text-primary text-xs font-medium" data-i18n="nav_duration">8天7夜</span>
+            <button id="lang-toggle" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-ink/5 hover:bg-ink/10 text-xs font-medium text-ink transition-colors duration-200 cursor-pointer" aria-label="Switch language">
+                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5h12M9 3v2m1.048 9.5A18.022 18.022 0 016.412 9m6.088 9h7M11 21l5-10 5 10M12.751 5C11.783 10.77 8.07 15.61 3 18.129"/>
+                </svg>
+                <span id="lang-label">EN</span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="aurora-bg pt-28 pb-16 px-4 md:px-6 text-center">
+        <div class="max-w-4xl mx-auto">
+            <p class="text-primary font-medium text-sm tracking-wide uppercase mb-3">2026 Summer Trip</p>
+            <h1 class="font-serif text-4xl md:text-5xl lg:text-6xl font-bold text-ink mb-4" data-i18n-html="hero_title">
+                荷蘭 <span class="text-primary">・</span> 比利時 <span class="text-primary">・</span> 法國
+            </h1>
+            <p class="text-muted text-lg md:text-xl max-w-2xl mx-auto mb-8" data-i18n="hero_route">
+                阿姆斯特丹 → 安特衛普 → 布魯塞爾 → 巴黎
+            </p>
+            <div class="flex flex-wrap justify-center gap-4">
+                <div class="flex items-center gap-2 bg-white/70 backdrop-blur-sm rounded-xl px-4 py-2 shadow-sm">
+                    <svg class="w-5 h-5 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                    </svg>
+                    <span class="text-sm font-medium" data-i18n="hero_dates">6/13 (六) - 6/20 (六)</span>
+                </div>
+                <div class="flex items-center gap-2 bg-white/70 backdrop-blur-sm rounded-xl px-4 py-2 shadow-sm">
+                    <svg class="w-5 h-5 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
+                    </svg>
+                    <span class="text-sm font-medium" data-i18n="hero_countries">3 國 4 城市</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Itinerary Section -->
+    <section id="itinerary" class="max-w-6xl mx-auto px-4 md:px-6 py-16">
+        <h2 class="font-serif text-3xl font-bold text-center mb-2" data-i18n="itinerary_title">每日行程</h2>
+        <p class="text-muted text-center mb-12" data-i18n="itinerary_subtitle">點擊卡片展開詳細行程</p>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <!-- Day 1 -->
+            <div class="group bg-white rounded-2xl p-5 shadow-sm hover:shadow-lg transition-shadow duration-200 cursor-pointer border border-gray-100">
+                <div class="flex items-start gap-4">
+                    <div class="shrink-0">
+                        <span class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-primary/10 text-primary text-sm font-bold">1</span>
+                    </div>
+                    <div class="flex-1 min-w-0">
+                        <div class="flex items-center justify-between mb-2">
+                            <div>
+                                <p class="font-medium text-sm" data-i18n="day1_title">抵達荷蘭</p>
+                                <p class="text-xs text-muted">6/13 (六)</p>
+                            </div>
+                            <span class="inline-flex items-center px-2 py-0.5 rounded-full bg-orange-50 text-accent text-xs shrink-0" data-i18n="tag_nl">🇳🇱 荷蘭</span>
+                        </div>
+                        <div class="grid grid-cols-2 gap-x-4 gap-y-1 text-xs text-muted">
+                            <p data-i18n="day1_ol1">07:00 抵達機場 → 火車到市中心</p>
+                            <p data-i18n="day1_ol4">安妮之家 / 西教堂</p>
+                            <p data-i18n="day1_ol2">10:00 中央車站會合</p>
+                            <p data-i18n="day1_ol5">運河遊船 60 min</p>
+                            <p data-i18n="day1_ol3">約旦區・九小街散步</p>
+                            <p data-i18n="day1_ol6">Foodhallen 晚餐</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Day 2 -->
+            <div class="group bg-white rounded-2xl p-5 shadow-sm hover:shadow-lg transition-shadow duration-200 cursor-pointer border border-gray-100">
+                <div class="flex items-start gap-4">
+                    <div class="shrink-0">
+                        <span class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-primary/10 text-primary text-sm font-bold">2</span>
+                    </div>
+                    <div class="flex-1 min-w-0">
+                        <div class="flex items-center justify-between mb-2">
+                            <div>
+                                <p class="font-medium text-sm" data-i18n="day2_title">荷蘭一日遊</p>
+                                <p class="text-xs text-muted">6/14 (日)</p>
+                            </div>
+                            <span class="inline-flex items-center px-2 py-0.5 rounded-full bg-orange-50 text-accent text-xs shrink-0" data-i18n="tag_nl">🇳🇱 荷蘭</span>
+                        </div>
+                        <div class="grid grid-cols-2 gap-x-4 gap-y-1 text-xs text-muted">
+                            <p data-i18n="day2_ol1">梵谷美術館</p>
+                            <p data-i18n="day2_ol4">海尼根體驗館</p>
+                            <p data-i18n="day2_ol2">國家博物館《夜巡》</p>
+                            <p data-i18n="day2_ol5">紅燈區散步</p>
+                            <p data-i18n="day2_ol3">花市・辛格運河</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Day 3 -->
+            <div class="group bg-white rounded-2xl p-5 shadow-sm hover:shadow-lg transition-shadow duration-200 cursor-pointer border border-gray-100">
+                <div class="flex items-start gap-4">
+                    <div class="shrink-0">
+                        <span class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-primary/10 text-primary text-sm font-bold">3</span>
+                    </div>
+                    <div class="flex-1 min-w-0">
+                        <div class="flex items-center justify-between mb-2">
+                            <div>
+                                <p class="font-medium text-sm" data-i18n="day3_title">移動至比利時</p>
+                                <p class="text-xs text-muted">6/15 (一)</p>
+                            </div>
+                            <span class="inline-flex items-center px-2 py-0.5 rounded-full bg-yellow-50 text-yellow-700 text-xs shrink-0" data-i18n="tag_be">🇧🇪 比利時</span>
+                        </div>
+                        <div class="grid grid-cols-2 gap-x-4 gap-y-1 text-xs text-muted">
+                            <p data-i18n="day3_ol1">Albert Cuyp 市集</p>
+                            <p data-i18n="day3_ol4">Meir 大街・Grote Markt</p>
+                            <p data-i18n="day3_ol2">買伴手禮（起司・木鞋）</p>
+                            <p data-i18n="day3_ol5">比利時啤酒 + 薯條</p>
+                            <p data-i18n="day3_ol3">15:10 火車→安特衛普</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Day 4 -->
+            <div class="group bg-white rounded-2xl p-5 shadow-sm hover:shadow-lg transition-shadow duration-200 cursor-pointer border border-gray-100">
+                <div class="flex items-start gap-4">
+                    <div class="shrink-0">
+                        <span class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-primary/10 text-primary text-sm font-bold">4</span>
+                    </div>
+                    <div class="flex-1 min-w-0">
+                        <div class="flex items-center justify-between mb-2">
+                            <div>
+                                <p class="font-medium text-sm" data-i18n="day4_title">布魯塞爾一日遊</p>
+                                <p class="text-xs text-muted">6/16 (二)</p>
+                            </div>
+                            <span class="inline-flex items-center px-2 py-0.5 rounded-full bg-yellow-50 text-yellow-700 text-xs shrink-0" data-i18n="tag_be">🇧🇪 比利時</span>
+                        </div>
+                        <div class="grid grid-cols-2 gap-x-4 gap-y-1 text-xs text-muted">
+                            <p data-i18n="day4_ol1">火車到布魯塞爾 45 min</p>
+                            <p data-i18n="day4_ol4">藝術山丘・馬格利特美術館</p>
+                            <p data-i18n="day4_ol2">大廣場・尿尿小童</p>
+                            <p data-i18n="day4_ol5">漫畫牆巡禮</p>
+                            <p data-i18n="day4_ol3">聖于貝爾長廊・巧克力</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Day 5 -->
+            <div class="group bg-white rounded-2xl p-5 shadow-sm hover:shadow-lg transition-shadow duration-200 cursor-pointer border border-gray-100">
+                <div class="flex items-start gap-4">
+                    <div class="shrink-0">
+                        <span class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-primary/10 text-primary text-sm font-bold">5</span>
+                    </div>
+                    <div class="flex-1 min-w-0">
+                        <div class="flex items-center justify-between mb-2">
+                            <div>
+                                <p class="font-medium text-sm" data-i18n="day5_title">移動至法國</p>
+                                <p class="text-xs text-muted">6/17 (三)</p>
+                            </div>
+                            <span class="inline-flex items-center px-2 py-0.5 rounded-full bg-blue-50 text-blue-700 text-xs shrink-0" data-i18n="tag_fr">🇫🇷 法國</span>
+                        </div>
+                        <div class="grid grid-cols-2 gap-x-4 gap-y-1 text-xs text-muted">
+                            <p data-i18n="day5_ol1">聖母大教堂・魯本斯</p>
+                            <p data-i18n="day5_ol3">火車→巴黎 2-3 hrs</p>
+                            <p data-i18n="day5_ol2">Het Steen・秘密小巷</p>
+                            <p data-i18n="day5_ol4">塞納河畔看鐵塔夜燈</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Day 6 -->
+            <div class="group bg-white rounded-2xl p-5 shadow-sm hover:shadow-lg transition-shadow duration-200 cursor-pointer border border-gray-100">
+                <div class="flex items-start gap-4">
+                    <div class="shrink-0">
+                        <span class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-primary/10 text-primary text-sm font-bold">6</span>
+                    </div>
+                    <div class="flex-1 min-w-0">
+                        <div class="flex items-center justify-between mb-2">
+                            <div>
+                                <p class="font-medium text-sm" data-i18n="day6_title">巴黎</p>
+                                <p class="text-xs text-muted">6/18 (四)</p>
+                            </div>
+                            <span class="inline-flex items-center px-2 py-0.5 rounded-full bg-blue-50 text-blue-700 text-xs shrink-0" data-i18n="tag_fr">🇫🇷 法國</span>
+                        </div>
+                        <div class="grid grid-cols-2 gap-x-4 gap-y-1 text-xs text-muted">
+                            <p data-i18n="day6_ol1">羅浮宮（蒙娜麗莎）</p>
+                            <p data-i18n="day6_ol4">瑪黑區逛街晚餐</p>
+                            <p data-i18n="day6_ol2">聖禮拜堂・聖母院</p>
+                            <p data-i18n="day6_ol5">塞納河遊船</p>
+                            <p data-i18n="day6_ol3">聖路易島冰淇淋</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Day 7 -->
+            <div class="group bg-white rounded-2xl p-5 shadow-sm hover:shadow-lg transition-shadow duration-200 cursor-pointer border border-gray-100">
+                <div class="flex items-start gap-4">
+                    <div class="shrink-0">
+                        <span class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-primary/10 text-primary text-sm font-bold">7</span>
+                    </div>
+                    <div class="flex-1 min-w-0">
+                        <div class="flex items-center justify-between mb-2">
+                            <div>
+                                <p class="font-medium text-sm" data-i18n="day7_title">巴黎</p>
+                                <p class="text-xs text-muted">6/19 (五)</p>
+                            </div>
+                            <span class="inline-flex items-center px-2 py-0.5 rounded-full bg-blue-50 text-blue-700 text-xs shrink-0" data-i18n="tag_fr">🇫🇷 法國</span>
+                        </div>
+                        <div class="grid grid-cols-2 gap-x-4 gap-y-1 text-xs text-muted">
+                            <p data-i18n="day7_ol1">艾菲爾鐵塔</p>
+                            <p data-i18n="day7_ol4">蒙馬特・聖心堂日落</p>
+                            <p data-i18n="day7_ol2">凱旋門・香榭麗舍</p>
+                            <p data-i18n="day7_ol5">法式大餐慶祝</p>
+                            <p data-i18n="day7_ol3">奧賽美術館</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Day 8 -->
+            <div class="group bg-white rounded-2xl p-5 shadow-sm hover:shadow-lg transition-shadow duration-200 cursor-pointer border border-gray-100">
+                <div class="flex items-start gap-4">
+                    <div class="shrink-0">
+                        <span class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-accent/10 text-accent text-sm font-bold">8</span>
+                    </div>
+                    <div class="flex-1 min-w-0">
+                        <div class="flex items-center justify-between mb-2">
+                            <div>
+                                <p class="font-medium text-sm" data-i18n="day8_title">回程</p>
+                                <p class="text-xs text-muted">6/20 (六)</p>
+                            </div>
+                            <span class="inline-flex items-center px-2 py-0.5 rounded-full bg-green-50 text-green-700 text-xs shrink-0" data-i18n="tag_return">回程</span>
+                        </div>
+                        <div class="grid grid-cols-2 gap-x-4 gap-y-1 text-xs text-muted">
+                            <p data-i18n="day8_ol1">07:30 早餐・打包</p>
+                            <p data-i18n="day8_ol3">退稅・免稅店</p>
+                            <p data-i18n="day8_ol2">09:00 RER B → CDG 機場</p>
+                            <p data-i18n="day8_ol4">12:20 起飛回台北</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Detailed Itinerary Section -->
+    <section id="detail" class="bg-white py-16">
+        <div class="max-w-4xl mx-auto px-4 md:px-6">
+            <h2 class="font-serif text-3xl font-bold text-center mb-2" data-i18n="detail_title">詳細每日行程</h2>
+            <p class="text-muted text-center mb-10" data-i18n="detail_subtitle">展開查看每天的時間安排</p>
+
+            <div class="space-y-4">
+
+                <!-- Day 1 Detail -->
+                <div class="border border-gray-100 rounded-2xl overflow-hidden">
+                    <button class="day-toggle w-full flex items-center justify-between p-5 bg-surface hover:bg-sky-50 transition-colors duration-200 cursor-pointer" aria-expanded="false" data-target="detail-day1">
+                        <div class="flex items-center gap-3">
+                            <span class="inline-flex items-center justify-center w-9 h-9 rounded-full bg-primary/10 text-primary text-sm font-bold">1</span>
+                            <div class="text-left">
+                                <p class="font-semibold text-sm" data-i18n="d1_header">6/13 (六) — 抵達荷蘭・阿姆斯特丹</p>
+                                <p class="text-xs text-muted" data-i18n="d1_summary">機場→中央車站會合→約旦區→安妮之家→運河遊船</p>
+                            </div>
+                        </div>
+                        <svg class="chevron w-5 h-5 text-muted shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+                    </button>
+                    <div id="detail-day1" class="day-detail">
+                        <div class="px-5 pb-5 pt-2 space-y-2 text-sm">
+                            <div class="grid grid-cols-[70px_1fr] gap-2 items-start"><span class="text-primary font-medium">07:00</span><span class="text-muted" data-i18n="d1_0700">抵達 Schiphol 機場，入境領行李</span></div>
+                            <div class="grid grid-cols-[70px_1fr] gap-2 items-start"><span class="text-primary font-medium">07:30</span><span class="text-muted" data-i18n="d1_0730">搭火車到 Amsterdam Centraal（約 15 分鐘，€5.50）</span></div>
+                            <div class="grid grid-cols-[70px_1fr] gap-2 items-start"><span class="text-primary font-medium">08:00</span><span class="text-muted" data-i18n="d1_0800">寄放行李（車站 Lockers 或住宿處）</span></div>
+                            <div class="grid grid-cols-[70px_1fr] gap-2 items-start"><span class="text-primary font-medium">08:30</span><span class="text-muted" data-i18n="d1_0830">早餐 + 散步 Damrak 大街、水壩廣場</span></div>
+                            <div class="grid grid-cols-[70px_1fr] gap-2 items-start"><span class="text-accent font-medium">10:00</span><span class="text-muted" data-i18n="d1_1000">與男友在中央車站會合</span></div>
+                            <div class="grid grid-cols-[70px_1fr] gap-2 items-start"><span class="text-primary font-medium">10:30</span><span class="text-muted" data-i18n="d1_1030">約旦區（Jordaan）散步 — 九小街逛特色小店</span></div>
+                            <div class="grid grid-cols-[70px_1fr] gap-2 items-start"><span class="text-primary font-medium">12:00</span><span class="text-muted" data-i18n="d1_1200">午餐：荷蘭炸肉丸（Bitterballen）或鯡魚三明治</span></div>
+                            <div class="grid grid-cols-[70px_1fr] gap-2 items-start"><span class="text-primary font-medium">13:30</span><span class="text-muted" data-i18n="d1_1330">安妮之家（Anne Frank House）或西教堂</span></div>
+                            <div class="grid grid-cols-[70px_1fr] gap-2 items-start"><span class="text-primary font-medium">15:30</span><span class="text-muted" data-i18n="d1_1530">運河遊船（Canal Cruise，約 60-75 分鐘）</span></div>
+                            <div class="grid grid-cols-[70px_1fr] gap-2 items-start"><span class="text-primary font-medium">17:00</span><span class="text-muted" data-i18n="d1_1700">Check-in 住宿，稍作休息</span></div>
+                            <div class="grid grid-cols-[70px_1fr] gap-2 items-start"><span class="text-primary font-medium">19:00</span><span class="text-muted" data-i18n="d1_1900">晚餐：Foodhallen 美食市集或 De Pijp 區餐廳</span></div>
+                            <div class="grid grid-cols-[70px_1fr] gap-2 items-start"><span class="text-primary font-medium">21:00</span><span class="text-muted" data-i18n="d1_2100">運河邊散步看夜景，早點休息調時差</span></div>
+                        <!-- Map -->
+                        <div class="mt-4 pt-4 border-t border-gray-100">
+                            <p class="text-xs font-medium text-ink mb-2" data-i18n="map_label">📍 今日地圖</p>
+                            <iframe class="w-full h-48 rounded-xl border border-gray-100" src="https://www.openstreetmap.org/export/embed.html?bbox=4.87%2C52.36%2C4.92%2C52.385&layer=mapnik&marker=52.3676%2C4.9041" loading="lazy" title="Day 1 Map"></iframe>
+                        </div>
+                        <!-- Alternatives -->
+                        <div class="mt-4 pt-4 border-t border-gray-100">
+                            <p class="text-xs font-medium text-ink mb-2" data-i18n="alt_label">💡 備選行程</p>
+                            <ul class="text-xs text-muted space-y-1 list-disc list-inside">
+                                <li data-i18n="d1_alt1">NEMO 科學博物館 — 適合互動體驗</li>
+                                <li data-i18n="d1_alt2">A'DAM Lookout 觀景台 — 北岸高空鞦韆</li>
+                                <li data-i18n="d1_alt3">Vondelpark 公園野餐 — 如果天氣好想放鬆</li>
+                            </ul>
+                        </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Day 2 Detail -->
+                <div class="border border-gray-100 rounded-2xl overflow-hidden">
+                    <button class="day-toggle w-full flex items-center justify-between p-5 bg-surface hover:bg-sky-50 transition-colors duration-200 cursor-pointer" aria-expanded="false" data-target="detail-day2">
+                        <div class="flex items-center gap-3">
+                            <span class="inline-flex items-center justify-center w-9 h-9 rounded-full bg-primary/10 text-primary text-sm font-bold">2</span>
+                            <div class="text-left">
+                                <p class="font-semibold text-sm" data-i18n="d2_header">6/14 (日) — 荷蘭一日遊</p>
+                                <p class="text-xs text-muted" data-i18n="d2_summary">梵谷美術館→國家博物館→花市→海尼根體驗館</p>
+                            </div>
+                        </div>
+                        <svg class="chevron w-5 h-5 text-muted shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+                    </button>
+                    <div id="detail-day2" class="day-detail">
+                        <div class="px-5 pb-5 pt-2 space-y-2 text-sm">
+                            <div class="grid grid-cols-[70px_1fr] gap-2 items-start"><span class="text-primary font-medium">09:00</span><span class="text-muted" data-i18n="d2_0900">早餐</span></div>
+                            <div class="grid grid-cols-[70px_1fr] gap-2 items-start"><span class="text-primary font-medium">09:30</span><span class="text-muted" data-i18n="d2_0930">梵谷美術館（Van Gogh Museum）— 需提前訂票</span></div>
+                            <div class="grid grid-cols-[70px_1fr] gap-2 items-start"><span class="text-primary font-medium">12:00</span><span class="text-muted" data-i18n="d2_1200">午餐：博物館廣場（Museumplein）附近</span></div>
+                            <div class="grid grid-cols-[70px_1fr] gap-2 items-start"><span class="text-primary font-medium">13:30</span><span class="text-muted" data-i18n="d2_1330">國家博物館（Rijksmuseum）— 《夜巡》等名畫</span></div>
+                            <div class="grid grid-cols-[70px_1fr] gap-2 items-start"><span class="text-primary font-medium">15:00</span><span class="text-muted" data-i18n="d2_1500">花市（Bloemenmarkt）+ 辛格運河散步</span></div>
+                            <div class="grid grid-cols-[70px_1fr] gap-2 items-start"><span class="text-primary font-medium">16:30</span><span class="text-muted" data-i18n="d2_1630">海尼根體驗館（Heineken Experience）</span></div>
+                            <div class="grid grid-cols-[70px_1fr] gap-2 items-start"><span class="text-primary font-medium">18:00</span><span class="text-muted" data-i18n="d2_1800">晚餐：Leidseplein 或 Rembrandtplein 附近</span></div>
+                            <div class="grid grid-cols-[70px_1fr] gap-2 items-start"><span class="text-primary font-medium">20:00</span><span class="text-muted" data-i18n="d2_2000">紅燈區散步 — 感受獨特氛圍</span></div>
+                        <!-- Map -->
+                        <div class="mt-4 pt-4 border-t border-gray-100">
+                            <p class="text-xs font-medium text-ink mb-2" data-i18n="map_label">📍 今日地圖</p>
+                            <iframe class="w-full h-48 rounded-xl border border-gray-100" src="https://www.openstreetmap.org/export/embed.html?bbox=4.87%2C52.35%2C4.91%2C52.37&layer=mapnik&marker=52.3584%2C4.8811" loading="lazy" title="Day 2 Map"></iframe>
+                        </div>
+                        <!-- Alternatives -->
+                        <div class="mt-4 pt-4 border-t border-gray-100">
+                            <p class="text-xs font-medium text-ink mb-2" data-i18n="alt_label">💡 備選行程</p>
+                            <ul class="text-xs text-muted space-y-1 list-disc list-inside">
+                                <li data-i18n="d2_alt1">阿姆斯特丹皇宮（Royal Palace）— 水壩廣場旁</li>
+                                <li data-i18n="d2_alt2">Moco Museum — 班克斯等當代藝術</li>
+                                <li data-i18n="d2_alt3">租腳踏車遊運河 — 最道地的體驗方式</li>
+                                <li data-i18n="d2_alt4">贊丹風車村（Zaanse Schans）— 半日遊近郊風車</li>
+                            </ul>
+                        </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Day 3 Detail -->
+                <div class="border border-gray-100 rounded-2xl overflow-hidden">
+                    <button class="day-toggle w-full flex items-center justify-between p-5 bg-surface hover:bg-sky-50 transition-colors duration-200 cursor-pointer" aria-expanded="false" data-target="detail-day3">
+                        <div class="flex items-center gap-3">
+                            <span class="inline-flex items-center justify-center w-9 h-9 rounded-full bg-primary/10 text-primary text-sm font-bold">3</span>
+                            <div class="text-left">
+                                <p class="font-semibold text-sm" data-i18n="d3_header">6/15 (一) — 阿姆斯特丹→安特衛普</p>
+                                <p class="text-xs text-muted" data-i18n="d3_summary">市集→伴手禮→火車→安特衛普車站→Grote Markt</p>
+                            </div>
+                        </div>
+                        <svg class="chevron w-5 h-5 text-muted shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+                    </button>
+                    <div id="detail-day3" class="day-detail">
+                        <div class="px-5 pb-5 pt-2 space-y-2 text-sm">
+                            <div class="grid grid-cols-[70px_1fr] gap-2 items-start"><span class="text-primary font-medium">09:00</span><span class="text-muted" data-i18n="d3_0900">早餐</span></div>
+                            <div class="grid grid-cols-[70px_1fr] gap-2 items-start"><span class="text-primary font-medium">09:30</span><span class="text-muted" data-i18n="d3_0930">Albert Cuyp Market — 現做荷蘭鬆餅 Stroopwafel</span></div>
+                            <div class="grid grid-cols-[70px_1fr] gap-2 items-start"><span class="text-primary font-medium">11:00</span><span class="text-muted" data-i18n="d3_1100">購買伴手禮（起司、木鞋小飾品）</span></div>
+                            <div class="grid grid-cols-[70px_1fr] gap-2 items-start"><span class="text-primary font-medium">12:00</span><span class="text-muted" data-i18n="d3_1200">午餐 + 回住宿取行李</span></div>
+                            <div class="grid grid-cols-[70px_1fr] gap-2 items-start"><span class="text-primary font-medium">13:30</span><span class="text-muted" data-i18n="d3_1330">前往 Amsterdam Centraal 車站</span></div>
+                            <div class="grid grid-cols-[70px_1fr] gap-2 items-start"><span class="text-accent font-medium">15:10</span><span class="text-muted" data-i18n="d3_1510">火車出發：阿姆斯特丹→安特衛普</span></div>
+                            <div class="grid grid-cols-[70px_1fr] gap-2 items-start"><span class="text-accent font-medium">16:30</span><span class="text-muted" data-i18n="d3_1630">抵達安特衛普中央車站（世界最美車站之一）</span></div>
+                            <div class="grid grid-cols-[70px_1fr] gap-2 items-start"><span class="text-primary font-medium">17:00</span><span class="text-muted" data-i18n="d3_1700">Check-in 住宿</span></div>
+                            <div class="grid grid-cols-[70px_1fr] gap-2 items-start"><span class="text-primary font-medium">17:30</span><span class="text-muted" data-i18n="d3_1730">散步 Meir 購物大街→Grote Markt 大廣場</span></div>
+                            <div class="grid grid-cols-[70px_1fr] gap-2 items-start"><span class="text-primary font-medium">19:00</span><span class="text-muted" data-i18n="d3_1900">晚餐：比利時啤酒 + 薯條（Frituur）</span></div>
+                        <!-- Map -->
+                        <div class="mt-4 pt-4 border-t border-gray-100">
+                            <p class="text-xs font-medium text-ink mb-2" data-i18n="map_label">📍 今日地圖</p>
+                            <iframe class="w-full h-48 rounded-xl border border-gray-100" src="https://www.openstreetmap.org/export/embed.html?bbox=4.39%2C51.215%2C4.43%2C51.225&layer=mapnik&marker=51.2172%2C4.4212" loading="lazy" title="Day 3 Map - Antwerp"></iframe>
+                        </div>
+                        <!-- Alternatives -->
+                        <div class="mt-4 pt-4 border-t border-gray-100">
+                            <p class="text-xs font-medium text-ink mb-2" data-i18n="alt_label">💡 備選行程</p>
+                            <ul class="text-xs text-muted space-y-1 list-disc list-inside">
+                                <li data-i18n="d3_alt1">MAS 博物館（Museum aan de Stroom）— 頂樓免費觀景</li>
+                                <li data-i18n="d3_alt2">安特衛普動物園 — 就在中央車站旁</li>
+                                <li data-i18n="d3_alt3">鑽石區散步 — 安特衛普是世界鑽石之都</li>
+                            </ul>
+                        </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <!-- Day 4 Detail -->
+                <div class="border border-gray-100 rounded-2xl overflow-hidden">
+                    <button class="day-toggle w-full flex items-center justify-between p-5 bg-surface hover:bg-sky-50 transition-colors duration-200 cursor-pointer" aria-expanded="false" data-target="detail-day4">
+                        <div class="flex items-center gap-3">
+                            <span class="inline-flex items-center justify-center w-9 h-9 rounded-full bg-primary/10 text-primary text-sm font-bold">4</span>
+                            <div class="text-left">
+                                <p class="font-semibold text-sm" data-i18n="d4_header">6/16 (二) — 布魯塞爾一日遊</p>
+                                <p class="text-xs text-muted" data-i18n="d4_summary">大廣場→尿尿小童→聖于貝爾長廊→藝術山丘→漫畫牆</p>
+                            </div>
+                        </div>
+                        <svg class="chevron w-5 h-5 text-muted shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+                    </button>
+                    <div id="detail-day4" class="day-detail">
+                        <div class="px-5 pb-5 pt-2 space-y-2 text-sm">
+                            <div class="grid grid-cols-[70px_1fr] gap-2 items-start"><span class="text-primary font-medium">08:00</span><span class="text-muted" data-i18n="d4_0800">早餐</span></div>
+                            <div class="grid grid-cols-[70px_1fr] gap-2 items-start"><span class="text-accent font-medium">08:30</span><span class="text-muted" data-i18n="d4_0830">搭火車到布魯塞爾（約 45 分鐘）</span></div>
+                            <div class="grid grid-cols-[70px_1fr] gap-2 items-start"><span class="text-primary font-medium">09:30</span><span class="text-muted" data-i18n="d4_0930">大廣場（Grand Place）— UNESCO 世界遺產</span></div>
+                            <div class="grid grid-cols-[70px_1fr] gap-2 items-start"><span class="text-primary font-medium">10:30</span><span class="text-muted" data-i18n="d4_1030">尿尿小童（Manneken Pis）+ 周邊巷弄</span></div>
+                            <div class="grid grid-cols-[70px_1fr] gap-2 items-start"><span class="text-primary font-medium">11:00</span><span class="text-muted" data-i18n="d4_1100">聖于貝爾長廊（Galeries Royales）— 巧克力店巡禮</span></div>
+                            <div class="grid grid-cols-[70px_1fr] gap-2 items-start"><span class="text-primary font-medium">12:00</span><span class="text-muted" data-i18n="d4_1200">午餐：比利時淡菜鍋（Moules-frites）</span></div>
+                            <div class="grid grid-cols-[70px_1fr] gap-2 items-start"><span class="text-primary font-medium">13:30</span><span class="text-muted" data-i18n="d4_1330">藝術山丘（Mont des Arts）— 俯瞰市景</span></div>
+                            <div class="grid grid-cols-[70px_1fr] gap-2 items-start"><span class="text-primary font-medium">14:30</span><span class="text-muted" data-i18n="d4_1430">馬格利特美術館（Musée Magritte）</span></div>
+                            <div class="grid grid-cols-[70px_1fr] gap-2 items-start"><span class="text-primary font-medium">15:30</span><span class="text-muted" data-i18n="d4_1530">比利時鬆餅（Liège waffle）+ 咖啡</span></div>
+                            <div class="grid grid-cols-[70px_1fr] gap-2 items-start"><span class="text-primary font-medium">16:30</span><span class="text-muted" data-i18n="d4_1630">漫畫牆巡禮（Comic Strip Route）</span></div>
+                            <div class="grid grid-cols-[70px_1fr] gap-2 items-start"><span class="text-accent font-medium">17:30</span><span class="text-muted" data-i18n="d4_1730">搭火車回安特衛普</span></div>
+                            <div class="grid grid-cols-[70px_1fr] gap-2 items-start"><span class="text-primary font-medium">19:00</span><span class="text-muted" data-i18n="d4_1900">晚餐：安特衛普當地餐廳</span></div>
+                        <!-- Map -->
+                        <div class="mt-4 pt-4 border-t border-gray-100">
+                            <p class="text-xs font-medium text-ink mb-2" data-i18n="map_label">📍 今日地圖</p>
+                            <iframe class="w-full h-48 rounded-xl border border-gray-100" src="https://www.openstreetmap.org/export/embed.html?bbox=4.345%2C50.84%2C4.365%2C50.855&layer=mapnik&marker=50.8467%2C4.3525" loading="lazy" title="Day 4 Map - Brussels"></iframe>
+                        </div>
+                        <!-- Alternatives -->
+                        <div class="mt-4 pt-4 border-t border-gray-100">
+                            <p class="text-xs font-medium text-ink mb-2" data-i18n="alt_label">💡 備選行程</p>
+                            <ul class="text-xs text-muted space-y-1 list-disc list-inside">
+                                <li data-i18n="d4_alt1">原子塔（Atomium）+ Mini-Europe — 需多留 2 小時</li>
+                                <li data-i18n="d4_alt2">比利時漫畫藝術中心 — 丁丁迷必去</li>
+                                <li data-i18n="d4_alt3">聖米歇爾大教堂 — 免費參觀的哥德式教堂</li>
+                                <li data-i18n="d4_alt4">Delirium Café — 擁有 2000+ 種啤酒的酒吧</li>
+                            </ul>
+                        </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Day 5 Detail -->
+                <div class="border border-gray-100 rounded-2xl overflow-hidden">
+                    <button class="day-toggle w-full flex items-center justify-between p-5 bg-surface hover:bg-sky-50 transition-colors duration-200 cursor-pointer" aria-expanded="false" data-target="detail-day5">
+                        <div class="flex items-center gap-3">
+                            <span class="inline-flex items-center justify-center w-9 h-9 rounded-full bg-primary/10 text-primary text-sm font-bold">5</span>
+                            <div class="text-left">
+                                <p class="font-semibold text-sm" data-i18n="d5_header">6/17 (三) — 安特衛普→巴黎</p>
+                                <p class="text-xs text-muted" data-i18n="d5_summary">聖母大教堂→Het Steen→秘密小巷→火車到巴黎</p>
+                            </div>
+                        </div>
+                        <svg class="chevron w-5 h-5 text-muted shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+                    </button>
+                    <div id="detail-day5" class="day-detail">
+                        <div class="px-5 pb-5 pt-2 space-y-2 text-sm">
+                            <div class="grid grid-cols-[70px_1fr] gap-2 items-start"><span class="text-primary font-medium">09:00</span><span class="text-muted" data-i18n="d5_0900">早餐</span></div>
+                            <div class="grid grid-cols-[70px_1fr] gap-2 items-start"><span class="text-primary font-medium">09:30</span><span class="text-muted" data-i18n="d5_0930">聖母大教堂（Cathedral of Our Lady）— 魯本斯名畫</span></div>
+                            <div class="grid grid-cols-[70px_1fr] gap-2 items-start"><span class="text-primary font-medium">10:30</span><span class="text-muted" data-i18n="d5_1030">Het Steen 城堡 + 斯海爾德河畔散步</span></div>
+                            <div class="grid grid-cols-[70px_1fr] gap-2 items-start"><span class="text-primary font-medium">11:30</span><span class="text-muted" data-i18n="d5_1130">Vlaaikensgang 秘密小巷 — 中世紀隱藏通道</span></div>
+                            <div class="grid grid-cols-[70px_1fr] gap-2 items-start"><span class="text-primary font-medium">12:00</span><span class="text-muted" data-i18n="d5_1200">午餐 + 取行李</span></div>
+                            <div class="grid grid-cols-[70px_1fr] gap-2 items-start"><span class="text-accent font-medium">13:00</span><span class="text-muted" data-i18n="d5_1300">前往車站，搭火車到巴黎（約 2-3 小時）</span></div>
+                            <div class="grid grid-cols-[70px_1fr] gap-2 items-start"><span class="text-primary font-medium">16:00</span><span class="text-muted" data-i18n="d5_1600">抵達巴黎，Check-in 住宿</span></div>
+                            <div class="grid grid-cols-[70px_1fr] gap-2 items-start"><span class="text-primary font-medium">19:30</span><span class="text-muted" data-i18n="d5_1930">晚餐：住宿附近法式小酒館（Bistro）</span></div>
+                            <div class="grid grid-cols-[70px_1fr] gap-2 items-start"><span class="text-primary font-medium">21:30</span><span class="text-muted" data-i18n="d5_2130">塞納河畔散步看艾菲爾鐵塔夜間燈光</span></div>
+                        <!-- Map -->
+                        <div class="mt-4 pt-4 border-t border-gray-100">
+                            <p class="text-xs font-medium text-ink mb-2" data-i18n="map_label">📍 今日地圖</p>
+                            <iframe class="w-full h-48 rounded-xl border border-gray-100" src="https://www.openstreetmap.org/export/embed.html?bbox=2.28%2C48.855%2C2.32%2C48.87&layer=mapnik&marker=52.8566%2C2.3522" loading="lazy" title="Day 5 Map - Paris"></iframe>
+                        </div>
+                        <!-- Alternatives -->
+                        <div class="mt-4 pt-4 border-t border-gray-100">
+                            <p class="text-xs font-medium text-ink mb-2" data-i18n="alt_label">💡 備選行程</p>
+                            <ul class="text-xs text-muted space-y-1 list-disc list-inside">
+                                <li data-i18n="d5_alt1">魯本斯故居（Rubens House）— 如果早上有時間</li>
+                                <li data-i18n="d5_alt2">安特衛普時尚博物館（MoMu）— 時尚愛好者</li>
+                                <li data-i18n="d5_alt3">抵達巴黎後逛拉丁區（Quartier Latin）</li>
+                            </ul>
+                        </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Day 6 Detail -->
+                <div class="border border-gray-100 rounded-2xl overflow-hidden">
+                    <button class="day-toggle w-full flex items-center justify-between p-5 bg-surface hover:bg-sky-50 transition-colors duration-200 cursor-pointer" aria-expanded="false" data-target="detail-day6">
+                        <div class="flex items-center gap-3">
+                            <span class="inline-flex items-center justify-center w-9 h-9 rounded-full bg-primary/10 text-primary text-sm font-bold">6</span>
+                            <div class="text-left">
+                                <p class="font-semibold text-sm" data-i18n="d6_header">6/18 (四) — 巴黎・經典路線</p>
+                                <p class="text-xs text-muted" data-i18n="d6_summary">羅浮宮→聖禮拜堂→聖母院→瑪黑區→塞納河遊船</p>
+                            </div>
+                        </div>
+                        <svg class="chevron w-5 h-5 text-muted shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+                    </button>
+                    <div id="detail-day6" class="day-detail">
+                        <div class="px-5 pb-5 pt-2 space-y-2 text-sm">
+                            <div class="grid grid-cols-[70px_1fr] gap-2 items-start"><span class="text-primary font-medium">08:30</span><span class="text-muted" data-i18n="d6_0830">早餐：法式可頌 + 咖啡</span></div>
+                            <div class="grid grid-cols-[70px_1fr] gap-2 items-start"><span class="text-primary font-medium">09:00</span><span class="text-muted" data-i18n="d6_0900">羅浮宮（Louvre）— 蒙娜麗莎、勝利女神、維納斯</span></div>
+                            <div class="grid grid-cols-[70px_1fr] gap-2 items-start"><span class="text-primary font-medium">12:00</span><span class="text-muted" data-i18n="d6_1200">杜樂麗花園（Jardin des Tuileries）散步</span></div>
+                            <div class="grid grid-cols-[70px_1fr] gap-2 items-start"><span class="text-primary font-medium">12:30</span><span class="text-muted" data-i18n="d6_1230">午餐：Rue de Rivoli 附近</span></div>
+                            <div class="grid grid-cols-[70px_1fr] gap-2 items-start"><span class="text-primary font-medium">14:00</span><span class="text-muted" data-i18n="d6_1400">聖禮拜堂（Sainte-Chapelle）— 絕美彩繪玻璃</span></div>
+                            <div class="grid grid-cols-[70px_1fr] gap-2 items-start"><span class="text-primary font-medium">15:00</span><span class="text-muted" data-i18n="d6_1500">巴黎聖母院（Notre-Dame）+ 西堤島散步</span></div>
+                            <div class="grid grid-cols-[70px_1fr] gap-2 items-start"><span class="text-primary font-medium">16:00</span><span class="text-muted" data-i18n="d6_1600">聖路易島 — Berthillon 冰淇淋</span></div>
+                            <div class="grid grid-cols-[70px_1fr] gap-2 items-start"><span class="text-primary font-medium">17:30</span><span class="text-muted" data-i18n="d6_1730">瑪黑區（Le Marais）— 時尚小店</span></div>
+                            <div class="grid grid-cols-[70px_1fr] gap-2 items-start"><span class="text-primary font-medium">19:00</span><span class="text-muted" data-i18n="d6_1900">晚餐：瑪黑區法式餐廳</span></div>
+                            <div class="grid grid-cols-[70px_1fr] gap-2 items-start"><span class="text-primary font-medium">21:00</span><span class="text-muted" data-i18n="d6_2100">塞納河遊船（Bateaux Mouches，約 1 小時）</span></div>
+                        <!-- Map -->
+                        <div class="mt-4 pt-4 border-t border-gray-100">
+                            <p class="text-xs font-medium text-ink mb-2" data-i18n="map_label">📍 今日地圖</p>
+                            <iframe class="w-full h-48 rounded-xl border border-gray-100" src="https://www.openstreetmap.org/export/embed.html?bbox=2.33%2C48.85%2C2.365%2C48.865&layer=mapnik&marker=48.8606%2C2.3376" loading="lazy" title="Day 6 Map - Paris Louvre area"></iframe>
+                        </div>
+                        <!-- Alternatives -->
+                        <div class="mt-4 pt-4 border-t border-gray-100">
+                            <p class="text-xs font-medium text-ink mb-2" data-i18n="alt_label">💡 備選行程</p>
+                            <ul class="text-xs text-muted space-y-1 list-disc list-inside">
+                                <li data-i18n="d6_alt1">橘園美術館（Musée de l'Orangerie）— 莫內睡蓮</li>
+                                <li data-i18n="d6_alt2">巴黎地下墓穴（Catacombes）— 獨特體驗</li>
+                                <li data-i18n="d6_alt3">莎士比亞書店（Shakespeare & Co.）— 聖母院對面</li>
+                                <li data-i18n="d6_alt4">龐畢度中心（Centre Pompidou）— 現代藝術</li>
+                            </ul>
+                        </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <!-- Day 7 Detail -->
+                <div class="border border-gray-100 rounded-2xl overflow-hidden">
+                    <button class="day-toggle w-full flex items-center justify-between p-5 bg-surface hover:bg-sky-50 transition-colors duration-200 cursor-pointer" aria-expanded="false" data-target="detail-day7">
+                        <div class="flex items-center gap-3">
+                            <span class="inline-flex items-center justify-center w-9 h-9 rounded-full bg-primary/10 text-primary text-sm font-bold">7</span>
+                            <div class="text-left">
+                                <p class="font-semibold text-sm" data-i18n="d7_header">6/19 (五) — 巴黎・左岸與鐵塔</p>
+                                <p class="text-xs text-muted" data-i18n="d7_summary">艾菲爾鐵塔→凱旋門→奧賽美術館→蒙馬特日落</p>
+                            </div>
+                        </div>
+                        <svg class="chevron w-5 h-5 text-muted shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+                    </button>
+                    <div id="detail-day7" class="day-detail">
+                        <div class="px-5 pb-5 pt-2 space-y-2 text-sm">
+                            <div class="grid grid-cols-[70px_1fr] gap-2 items-start"><span class="text-primary font-medium">08:30</span><span class="text-muted" data-i18n="d7_0830">早餐</span></div>
+                            <div class="grid grid-cols-[70px_1fr] gap-2 items-start"><span class="text-primary font-medium">09:00</span><span class="text-muted" data-i18n="d7_0900">艾菲爾鐵塔（登塔或戰神廣場拍照）</span></div>
+                            <div class="grid grid-cols-[70px_1fr] gap-2 items-start"><span class="text-primary font-medium">10:30</span><span class="text-muted" data-i18n="d7_1030">步行到凱旋門（沿香榭麗舍大道）</span></div>
+                            <div class="grid grid-cols-[70px_1fr] gap-2 items-start"><span class="text-primary font-medium">11:30</span><span class="text-muted" data-i18n="d7_1130">登凱旋門頂樓俯瞰巴黎</span></div>
+                            <div class="grid grid-cols-[70px_1fr] gap-2 items-start"><span class="text-primary font-medium">12:30</span><span class="text-muted" data-i18n="d7_1230">午餐：香榭麗舍大道附近</span></div>
+                            <div class="grid grid-cols-[70px_1fr] gap-2 items-start"><span class="text-primary font-medium">14:00</span><span class="text-muted" data-i18n="d7_1400">奧賽美術館（Musée d'Orsay）— 印象派名畫</span></div>
+                            <div class="grid grid-cols-[70px_1fr] gap-2 items-start"><span class="text-primary font-medium">15:30</span><span class="text-muted" data-i18n="d7_1530">聖日耳曼德佩區 — 花神咖啡館（Café de Flore）</span></div>
+                            <div class="grid grid-cols-[70px_1fr] gap-2 items-start"><span class="text-primary font-medium">16:30</span><span class="text-muted" data-i18n="d7_1630">蒙馬特（Montmartre）+ 聖心堂</span></div>
+                            <div class="grid grid-cols-[70px_1fr] gap-2 items-start"><span class="text-primary font-medium">18:00</span><span class="text-muted" data-i18n="d7_1800">蒙馬特看日落</span></div>
+                            <div class="grid grid-cols-[70px_1fr] gap-2 items-start"><span class="text-primary font-medium">19:30</span><span class="text-muted" data-i18n="d7_1930">最後晚餐：慶祝旅程的法式大餐</span></div>
+                        <!-- Map -->
+                        <div class="mt-4 pt-4 border-t border-gray-100">
+                            <p class="text-xs font-medium text-ink mb-2" data-i18n="map_label">📍 今日地圖</p>
+                            <iframe class="w-full h-48 rounded-xl border border-gray-100" src="https://www.openstreetmap.org/export/embed.html?bbox=2.28%2C48.855%2C2.345%2C48.885&layer=mapnik&marker=48.8584%2C2.2945" loading="lazy" title="Day 7 Map - Paris Eiffel area"></iframe>
+                        </div>
+                        <!-- Alternatives -->
+                        <div class="mt-4 pt-4 border-t border-gray-100">
+                            <p class="text-xs font-medium text-ink mb-2" data-i18n="alt_label">💡 備選行程</p>
+                            <ul class="text-xs text-muted space-y-1 list-disc list-inside">
+                                <li data-i18n="d7_alt1">凡爾賽宮（Versailles）— 需整個半天，替代奧賽+蒙馬特</li>
+                                <li data-i18n="d7_alt2">拉法葉百貨（Galeries Lafayette）— 頂樓免費觀景台</li>
+                                <li data-i18n="d7_alt3">盧森堡公園（Jardin du Luxembourg）— 悠閒散步</li>
+                                <li data-i18n="d7_alt4">紅磨坊（Moulin Rouge）外觀拍照 — 在蒙馬特山腳</li>
+                            </ul>
+                        </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Day 8 Detail -->
+                <div class="border border-gray-100 rounded-2xl overflow-hidden">
+                    <button class="day-toggle w-full flex items-center justify-between p-5 bg-surface hover:bg-sky-50 transition-colors duration-200 cursor-pointer" aria-expanded="false" data-target="detail-day8">
+                        <div class="flex items-center gap-3">
+                            <span class="inline-flex items-center justify-center w-9 h-9 rounded-full bg-accent/10 text-accent text-sm font-bold">8</span>
+                            <div class="text-left">
+                                <p class="font-semibold text-sm" data-i18n="d8_header">6/20 (六) — 回程</p>
+                                <p class="text-xs text-muted" data-i18n="d8_summary">早餐→機場→退稅→12:20 起飛回台北</p>
+                            </div>
+                        </div>
+                        <svg class="chevron w-5 h-5 text-muted shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+                    </button>
+                    <div id="detail-day8" class="day-detail">
+                        <div class="px-5 pb-5 pt-2 space-y-2 text-sm">
+                            <div class="grid grid-cols-[70px_1fr] gap-2 items-start"><span class="text-primary font-medium">07:00</span><span class="text-muted" data-i18n="d8_0700">起床、最後整理行李</span></div>
+                            <div class="grid grid-cols-[70px_1fr] gap-2 items-start"><span class="text-primary font-medium">07:30</span><span class="text-muted" data-i18n="d8_0730">早餐：麵包店買可頌</span></div>
+                            <div class="grid grid-cols-[70px_1fr] gap-2 items-start"><span class="text-primary font-medium">08:30</span><span class="text-muted" data-i18n="d8_0830">Check-out</span></div>
+                            <div class="grid grid-cols-[70px_1fr] gap-2 items-start"><span class="text-accent font-medium">09:00</span><span class="text-muted" data-i18n="d8_0900">前往 CDG 機場（RER B，約 35-50 分鐘）</span></div>
+                            <div class="grid grid-cols-[70px_1fr] gap-2 items-start"><span class="text-primary font-medium">10:00</span><span class="text-muted" data-i18n="d8_1000">辦理登機、退稅、逛免稅店</span></div>
+                            <div class="grid grid-cols-[70px_1fr] gap-2 items-start"><span class="text-accent font-medium">12:20</span><span class="text-muted" data-i18n="d8_1220">起飛回台北</span></div>
+                        <!-- Map -->
+                        <div class="mt-4 pt-4 border-t border-gray-100">
+                            <p class="text-xs font-medium text-ink mb-2" data-i18n="map_label">📍 今日地圖</p>
+                            <iframe class="w-full h-48 rounded-xl border border-gray-100" src="https://www.openstreetmap.org/export/embed.html?bbox=2.53%2C49.0%2C2.58%2C49.02&layer=mapnik&marker=49.0097%2C2.5479" loading="lazy" title="Day 8 Map - CDG Airport"></iframe>
+                        </div>
+                        <!-- Alternatives -->
+                        <div class="mt-4 pt-4 border-t border-gray-100">
+                            <p class="text-xs font-medium text-ink mb-2" data-i18n="alt_label">💡 備選行程</p>
+                            <ul class="text-xs text-muted space-y-1 list-disc list-inside">
+                                <li data-i18n="d8_alt1">如果航班延誤：機場附近 Aéroville 購物中心</li>
+                                <li data-i18n="d8_alt2">提早出門可繞去附近麵包店買法式甜點當伴手禮</li>
+                            </ul>
+                        </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Ticket Reminder -->
+            <div class="mt-10 p-5 bg-amber-50 border border-amber-200 rounded-2xl">
+                <div class="flex items-start gap-3">
+                    <svg class="w-5 h-5 text-amber-600 mt-0.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L4.082 16.5c-.77.833.192 2.5 1.732 2.5z"/>
+                    </svg>
+                    <div>
+                        <h4 class="font-semibold text-sm text-amber-800 mb-1" data-i18n="ticket_title">需要提前訂票的景點</h4>
+                        <ul class="text-sm text-amber-700 space-y-1 list-disc list-inside">
+                            <li data-i18n="ticket_1">梵谷美術館（6月旺季很快售罄）</li>
+                            <li data-i18n="ticket_2">羅浮宮（指定時段入場）</li>
+                            <li data-i18n="ticket_3">安妮之家（每週二釋出 6 週後的票，非常搶手）</li>
+                            <li data-i18n="ticket_4">艾菲爾鐵塔登塔</li>
+                            <li data-i18n="ticket_5">奧賽美術館</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Checklist Section -->
+    <section id="checklist" class="bg-white py-16">
+        <div class="max-w-6xl mx-auto px-4 md:px-6">
+            <h2 class="font-serif text-3xl font-bold text-center mb-2" data-i18n="checklist_title">出發前準備清單</h2>
+            <p class="text-muted text-center mb-4" data-i18n="checklist_subtitle">勾選已完成的項目，追蹤準備進度</p>
+
+            <!-- Progress Bar -->
+            <div class="max-w-md mx-auto mb-12">
+                <div class="flex items-center justify-between text-sm text-muted mb-2">
+                    <span data-i18n="checklist_progress">完成進度</span>
+                    <span id="progress-text">0 / 28</span>
+                </div>
+                <div class="w-full bg-gray-100 rounded-full h-3 overflow-hidden">
+                    <div id="progress-bar" class="h-full bg-gradient-to-r from-primary to-secondary rounded-full transition-all duration-500 ease-out" style="width: 0%"></div>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+
+                <!-- Category 1: 立即處理 -->
+                <div class="bg-surface rounded-2xl p-6 border border-gray-100">
+                    <div class="flex items-center gap-2 mb-4">
+                        <span class="inline-flex items-center justify-center w-8 h-8 rounded-full bg-red-100 text-red-600">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L4.082 16.5c-.77.833.192 2.5 1.732 2.5z"/>
+                            </svg>
+                        </span>
+                        <div>
+                            <h3 class="font-semibold text-sm" data-i18n="cat1_title">立即處理</h3>
+                            <p class="text-xs text-muted" data-i18n="cat1_date">5/20 - 5/25</p>
+                        </div>
+                    </div>
+                    <div class="space-y-3">
+                        <div class="checklist-item flex items-start gap-3">
+                            <input type="checkbox" id="c1" class="mt-1 w-4 h-4 rounded border-gray-300 text-primary focus:ring-primary cursor-pointer">
+                            <label for="c1" class="text-sm text-muted cursor-pointer" data-i18n="c1">確認護照效期（需至 2026/12/20 後有效）</label>
+                        </div>
+                        <div class="checklist-item flex items-start gap-3">
+                            <input type="checkbox" id="c2" class="mt-1 w-4 h-4 rounded border-gray-300 text-primary focus:ring-primary cursor-pointer">
+                            <label for="c2" class="text-sm text-muted cursor-pointer" data-i18n="c2">確認 ETIAS 是否需要申請</label>
+                        </div>
+                        <div class="checklist-item flex items-start gap-3">
+                            <input type="checkbox" id="c3" class="mt-1 w-4 h-4 rounded border-gray-300 text-primary focus:ring-primary cursor-pointer">
+                            <label for="c3" class="text-sm text-muted cursor-pointer" data-i18n="c3">投保旅遊平安險（醫療≥3萬歐）</label>
+                        </div>
+                        <div class="checklist-item flex items-start gap-3">
+                            <input type="checkbox" id="c4" class="mt-1 w-4 h-4 rounded border-gray-300 text-primary focus:ring-primary cursor-pointer">
+                            <label for="c4" class="text-sm text-muted cursor-pointer" data-i18n="c4">通知銀行出國日期，避免鎖卡</label>
+                        </div>
+                        <div class="checklist-item flex items-start gap-3">
+                            <input type="checkbox" id="c5" class="mt-1 w-4 h-4 rounded border-gray-300 text-primary focus:ring-primary cursor-pointer">
+                            <label for="c5" class="text-sm text-muted cursor-pointer" data-i18n="c5">開啟信用卡海外交易 / 感應支付</label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Category 2: 一週內完成 -->
+                <div class="bg-surface rounded-2xl p-6 border border-gray-100">
+                    <div class="flex items-center gap-2 mb-4">
+                        <span class="inline-flex items-center justify-center w-8 h-8 rounded-full bg-amber-100 text-amber-600">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                            </svg>
+                        </span>
+                        <div>
+                            <h3 class="font-semibold text-sm" data-i18n="cat2_title">一週內完成</h3>
+                            <p class="text-xs text-muted" data-i18n="cat2_date">5/25 - 6/1</p>
+                        </div>
+                    </div>
+                    <div class="space-y-3">
+                        <div class="checklist-item flex items-start gap-3">
+                            <input type="checkbox" id="c6" class="mt-1 w-4 h-4 rounded border-gray-300 text-primary focus:ring-primary cursor-pointer">
+                            <label for="c6" class="text-sm text-muted cursor-pointer" data-i18n="c6">規劃每日行程大綱</label>
+                        </div>
+                        <div class="checklist-item flex items-start gap-3">
+                            <input type="checkbox" id="c7" class="mt-1 w-4 h-4 rounded border-gray-300 text-primary focus:ring-primary cursor-pointer">
+                            <label for="c7" class="text-sm text-muted cursor-pointer" data-i18n="c7">預訂熱門景點門票（羅浮宮等）</label>
+                        </div>
+                        <div class="checklist-item flex items-start gap-3">
+                            <input type="checkbox" id="c8" class="mt-1 w-4 h-4 rounded border-gray-300 text-primary focus:ring-primary cursor-pointer">
+                            <label for="c8" class="text-sm text-muted cursor-pointer" data-i18n="c8">下載離線地圖（荷比法）</label>
+                        </div>
+                        <div class="checklist-item flex items-start gap-3">
+                            <input type="checkbox" id="c9" class="mt-1 w-4 h-4 rounded border-gray-300 text-primary focus:ring-primary cursor-pointer">
+                            <label for="c9" class="text-sm text-muted cursor-pointer" data-i18n="c9">確認住宿 check-in 方式與時間</label>
+                        </div>
+                        <div class="checklist-item flex items-start gap-3">
+                            <input type="checkbox" id="c10" class="mt-1 w-4 h-4 rounded border-gray-300 text-primary focus:ring-primary cursor-pointer">
+                            <label for="c10" class="text-sm text-muted cursor-pointer" data-i18n="c10">研究當地交通卡（OV-chipkaart 等）</label>
+                        </div>
+                        <div class="checklist-item flex items-start gap-3">
+                            <input type="checkbox" id="c11" class="mt-1 w-4 h-4 rounded border-gray-300 text-primary focus:ring-primary cursor-pointer">
+                            <label for="c11" class="text-sm text-muted cursor-pointer" data-i18n="c11">兌換歐元現金（約 200-300€）</label>
+                        </div>
+                        <div class="checklist-item flex items-start gap-3">
+                            <input type="checkbox" id="c12" class="mt-1 w-4 h-4 rounded border-gray-300 text-primary focus:ring-primary cursor-pointer">
+                            <label for="c12" class="text-sm text-muted cursor-pointer" data-i18n="c12">購買歐洲 eSIM（Airalo / Ubigi）</label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Category 3: 出發前兩週 -->
+                <div class="bg-surface rounded-2xl p-6 border border-gray-100">
+                    <div class="flex items-center gap-2 mb-4">
+                        <span class="inline-flex items-center justify-center w-8 h-8 rounded-full bg-blue-100 text-blue-600">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
+                            </svg>
+                        </span>
+                        <div>
+                            <h3 class="font-semibold text-sm" data-i18n="cat3_title">出發前兩週</h3>
+                            <p class="text-xs text-muted" data-i18n="cat3_date">6/1 - 6/7</p>
+                        </div>
+                    </div>
+                    <div class="space-y-3">
+                        <div class="checklist-item flex items-start gap-3">
+                            <input type="checkbox" id="c13" class="mt-1 w-4 h-4 rounded border-gray-300 text-primary focus:ring-primary cursor-pointer">
+                            <label for="c13" class="text-sm text-muted cursor-pointer" data-i18n="c13">整理行李清單（6月歐洲 15-25°C）</label>
+                        </div>
+                        <div class="checklist-item flex items-start gap-3">
+                            <input type="checkbox" id="c14" class="mt-1 w-4 h-4 rounded border-gray-300 text-primary focus:ring-primary cursor-pointer">
+                            <label for="c14" class="text-sm text-muted cursor-pointer" data-i18n="c14">準備歐規轉接頭（Type C/F）</label>
+                        </div>
+                        <div class="checklist-item flex items-start gap-3">
+                            <input type="checkbox" id="c15" class="mt-1 w-4 h-4 rounded border-gray-300 text-primary focus:ring-primary cursor-pointer">
+                            <label for="c15" class="text-sm text-muted cursor-pointer" data-i18n="c15">備份重要文件（護照、機票、車票）</label>
+                        </div>
+                        <div class="checklist-item flex items-start gap-3">
+                            <input type="checkbox" id="c16" class="mt-1 w-4 h-4 rounded border-gray-300 text-primary focus:ring-primary cursor-pointer">
+                            <label for="c16" class="text-sm text-muted cursor-pointer" data-i18n="c16">下載實用 App（Google Translate、9292、SNCF）</label>
+                        </div>
+                        <div class="checklist-item flex items-start gap-3">
+                            <input type="checkbox" id="c17" class="mt-1 w-4 h-4 rounded border-gray-300 text-primary focus:ring-primary cursor-pointer">
+                            <label for="c17" class="text-sm text-muted cursor-pointer" data-i18n="c17">確認回程機場交通路線</label>
+                        </div>
+                        <div class="checklist-item flex items-start gap-3">
+                            <input type="checkbox" id="c18" class="mt-1 w-4 h-4 rounded border-gray-300 text-primary focus:ring-primary cursor-pointer">
+                            <label for="c18" class="text-sm text-muted cursor-pointer" data-i18n="c18">告知家人朋友行程表</label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Category 4: 出發前一週 -->
+                <div class="bg-surface rounded-2xl p-6 border border-gray-100">
+                    <div class="flex items-center gap-2 mb-4">
+                        <span class="inline-flex items-center justify-center w-8 h-8 rounded-full bg-green-100 text-green-600">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                            </svg>
+                        </span>
+                        <div>
+                            <h3 class="font-semibold text-sm" data-i18n="cat4_title">出發前一週</h3>
+                            <p class="text-xs text-muted" data-i18n="cat4_date">6/7 - 6/12</p>
+                        </div>
+                    </div>
+                    <div class="space-y-3">
+                        <div class="checklist-item flex items-start gap-3">
+                            <input type="checkbox" id="c19" class="mt-1 w-4 h-4 rounded border-gray-300 text-primary focus:ring-primary cursor-pointer">
+                            <label for="c19" class="text-sm text-muted cursor-pointer" data-i18n="c19">打包行李（液體隨身≤100ml）</label>
+                        </div>
+                        <div class="checklist-item flex items-start gap-3">
+                            <input type="checkbox" id="c20" class="mt-1 w-4 h-4 rounded border-gray-300 text-primary focus:ring-primary cursor-pointer">
+                            <label for="c20" class="text-sm text-muted cursor-pointer" data-i18n="c20">再次確認所有預訂日期時間</label>
+                        </div>
+                        <div class="checklist-item flex items-start gap-3">
+                            <input type="checkbox" id="c21" class="mt-1 w-4 h-4 rounded border-gray-300 text-primary focus:ring-primary cursor-pointer">
+                            <label for="c21" class="text-sm text-muted cursor-pointer" data-i18n="c21">充飽行動電源（≤100Wh）</label>
+                        </div>
+                        <div class="checklist-item flex items-start gap-3">
+                            <input type="checkbox" id="c22" class="mt-1 w-4 h-4 rounded border-gray-300 text-primary focus:ring-primary cursor-pointer">
+                            <label for="c22" class="text-sm text-muted cursor-pointer" data-i18n="c22">設定緊急聯絡資訊（駐外館處、保險專線）</label>
+                        </div>
+                        <div class="checklist-item flex items-start gap-3">
+                            <input type="checkbox" id="c23" class="mt-1 w-4 h-4 rounded border-gray-300 text-primary focus:ring-primary cursor-pointer">
+                            <label for="c23" class="text-sm text-muted cursor-pointer" data-i18n="c23">整理錢包（帶 1-2 張信用卡 + 提款卡）</label>
+                        </div>
+                        <div class="checklist-item flex items-start gap-3">
+                            <input type="checkbox" id="c24" class="mt-1 w-4 h-4 rounded border-gray-300 text-primary focus:ring-primary cursor-pointer">
+                            <label for="c24" class="text-sm text-muted cursor-pointer" data-i18n="c24">線上報到（起飛前 24-48 小時）</label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Category 5: 出發當天 -->
+                <div class="bg-surface rounded-2xl p-6 border border-gray-100">
+                    <div class="flex items-center gap-2 mb-4">
+                        <span class="inline-flex items-center justify-center w-8 h-8 rounded-full bg-primary/10 text-primary">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/>
+                            </svg>
+                        </span>
+                        <div>
+                            <h3 class="font-semibold text-sm" data-i18n="cat5_title">出發當天</h3>
+                            <p class="text-xs text-muted" data-i18n="cat5_date">6/13</p>
+                        </div>
+                    </div>
+                    <div class="space-y-3">
+                        <div class="checklist-item flex items-start gap-3">
+                            <input type="checkbox" id="c25" class="mt-1 w-4 h-4 rounded border-gray-300 text-primary focus:ring-primary cursor-pointer">
+                            <label for="c25" class="text-sm text-muted cursor-pointer" data-i18n="c25">最終確認：護照、手機、錢包、充電器</label>
+                        </div>
+                        <div class="checklist-item flex items-start gap-3">
+                            <input type="checkbox" id="c26" class="mt-1 w-4 h-4 rounded border-gray-300 text-primary focus:ring-primary cursor-pointer">
+                            <label for="c26" class="text-sm text-muted cursor-pointer" data-i18n="c26">確認航班狀態（延誤 / 登機門）</label>
+                        </div>
+                        <div class="checklist-item flex items-start gap-3">
+                            <input type="checkbox" id="c27" class="mt-1 w-4 h-4 rounded border-gray-300 text-primary focus:ring-primary cursor-pointer">
+                            <label for="c27" class="text-sm text-muted cursor-pointer" data-i18n="c27">提早 3 小時抵達機場</label>
+                        </div>
+                        <div class="checklist-item flex items-start gap-3">
+                            <input type="checkbox" id="c28" class="mt-1 w-4 h-4 rounded border-gray-300 text-primary focus:ring-primary cursor-pointer">
+                            <label for="c28" class="text-sm text-muted cursor-pointer" data-i18n="c28">轉接頭放隨身行李</label>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Timeline Section -->
+    <section id="timeline" class="max-w-6xl mx-auto px-4 md:px-6 py-16">
+        <h2 class="font-serif text-3xl font-bold text-center mb-2" data-i18n="timeline_title">準備時間軸</h2>
+        <p class="text-muted text-center mb-12" data-i18n="timeline_subtitle">從現在到出發的倒數規劃</p>
+
+        <div class="max-w-3xl mx-auto">
+            <div class="relative border-l-2 border-primary/20 ml-4 md:ml-8 space-y-10">
+
+                <!-- Timeline Item 1 -->
+                <div class="timeline-dot pl-8">
+                    <div class="flex flex-wrap items-center gap-2 mb-1">
+                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full bg-red-100 text-red-700 text-xs font-medium" data-i18n="tl1_badge">緊急</span>
+                        <span class="text-xs text-muted">5/20 - 5/25</span>
+                    </div>
+                    <h3 class="font-semibold text-lg mb-2" data-i18n="tl1_title">立即處理</h3>
+                    <p class="text-sm text-muted" data-i18n="tl1_desc">護照效期確認、ETIAS 申請、旅遊保險投保、通知銀行、開啟海外交易功能。這些事項有時效性或需要處理時間，務必最先完成。</p>
+                </div>
+
+                <!-- Timeline Item 2 -->
+                <div class="timeline-dot pl-8">
+                    <div class="flex flex-wrap items-center gap-2 mb-1">
+                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full bg-amber-100 text-amber-700 text-xs font-medium" data-i18n="tl2_badge">重要</span>
+                        <span class="text-xs text-muted">5/25 - 6/1</span>
+                    </div>
+                    <h3 class="font-semibold text-lg mb-2" data-i18n="tl2_title">規劃與預訂</h3>
+                    <p class="text-sm text-muted" data-i18n="tl2_desc">規劃每日行程、預訂熱門景點門票（羅浮宮、梵谷美術館等旺季容易售罄）、下載離線地圖、確認住宿入住方式、研究交通卡、換匯、購買 eSIM。</p>
+                </div>
+
+                <!-- Timeline Item 3 -->
+                <div class="timeline-dot pl-8">
+                    <div class="flex flex-wrap items-center gap-2 mb-1">
+                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full bg-blue-100 text-blue-700 text-xs font-medium" data-i18n="tl3_badge">準備</span>
+                        <span class="text-xs text-muted">6/1 - 6/7</span>
+                    </div>
+                    <h3 class="font-semibold text-lg mb-2" data-i18n="tl3_title">物品與文件</h3>
+                    <p class="text-sm text-muted" data-i18n="tl3_desc">整理行李清單（查看天氣預報）、準備歐規轉接頭、備份重要文件電子檔、下載翻譯與交通 App、確認回程機場交通、告知親友行程。</p>
+                </div>
+
+                <!-- Timeline Item 4 -->
+                <div class="timeline-dot pl-8">
+                    <div class="flex flex-wrap items-center gap-2 mb-1">
+                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full bg-green-100 text-green-700 text-xs font-medium" data-i18n="tl4_badge">最終確認</span>
+                        <span class="text-xs text-muted">6/7 - 6/12</span>
+                    </div>
+                    <h3 class="font-semibold text-lg mb-2" data-i18n="tl4_title">打包與確認</h3>
+                    <p class="text-sm text-muted" data-i18n="tl4_desc">打包行李、再次確認所有預訂、充飽行動電源、設定緊急聯絡資訊、整理錢包、線上報到（起飛前 24-48 小時開放）。</p>
+                </div>
+
+                <!-- Timeline Item 5 -->
+                <div class="timeline-dot pl-8">
+                    <div class="flex flex-wrap items-center gap-2 mb-1">
+                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full bg-primary/10 text-primary text-xs font-medium" data-i18n="tl5_badge">出發</span>
+                        <span class="text-xs text-muted">6/13</span>
+                    </div>
+                    <h3 class="font-semibold text-lg mb-2" data-i18n="tl5_title">出發日</h3>
+                    <p class="text-sm text-muted" data-i18n="tl5_desc">最終確認隨身物品、查看航班狀態、提早 3 小時抵達機場。抵達阿姆斯特丹後，07:00 入境，10:00 與男友在中央車站會合，開始旅程！</p>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Countdown Section -->
+    <section class="bg-gradient-to-r from-primary to-secondary py-12">
+        <div class="max-w-4xl mx-auto px-4 md:px-6 text-center text-white">
+            <p class="text-sm font-medium opacity-80 mb-2" data-i18n="countdown_label">距離出發還有</p>
+            <div class="flex justify-center gap-6 md:gap-10 mb-4">
+                <div>
+                    <span id="countdown-days" class="text-4xl md:text-5xl font-bold">--</span>
+                    <p class="text-xs opacity-80 mt-1" data-i18n="countdown_days">天</p>
+                </div>
+                <div>
+                    <span id="countdown-hours" class="text-4xl md:text-5xl font-bold">--</span>
+                    <p class="text-xs opacity-80 mt-1" data-i18n="countdown_hours">時</p>
+                </div>
+                <div>
+                    <span id="countdown-mins" class="text-4xl md:text-5xl font-bold">--</span>
+                    <p class="text-xs opacity-80 mt-1" data-i18n="countdown_mins">分</p>
+                </div>
+            </div>
+            <p class="text-sm opacity-70" data-i18n="countdown_dest">2026/06/13 出發前往阿姆斯特丹</p>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-ink text-white/60 py-8">
+        <div class="max-w-6xl mx-auto px-4 md:px-6 text-center">
+            <p class="text-sm" data-i18n="footer_text">2026 歐洲旅行計畫 — 荷蘭・比利時・法國</p>
+            <p class="text-xs mt-2 opacity-50" data-i18n="footer_wish">祝旅途愉快 ✈️</p>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script>
+        // ===== i18n Translation System =====
+        const translations = {
+            zh: {
+                // Nav
+                nav_title: '歐洲旅行計畫',
+                nav_itinerary: '行程',
+                nav_detail: '詳細',
+                nav_checklist: '清單',
+                nav_timeline: '時間軸',
+                nav_duration: '8天7夜',
+                // Hero
+                hero_title: '荷蘭 <span class="text-primary">・</span> 比利時 <span class="text-primary">・</span> 法國',
+                hero_route: '阿姆斯特丹 → 安特衛普 → 布魯塞爾 → 巴黎',
+                hero_dates: '6/13 (六) - 6/20 (六)',
+                hero_countries: '3 國 4 城市',
+                // Itinerary
+                itinerary_title: '每日行程',
+                itinerary_subtitle: '點擊卡片展開詳細行程',
+                day1_title: '抵達荷蘭',
+                day1_outline_title: '行程大綱',
+                day1_ol1: '07:00 抵達機場 → 火車到市中心',
+                day1_ol2: '10:00 中央車站會合',
+                day1_ol3: '約旦區・九小街散步',
+                day1_ol4: '安妮之家 / 西教堂',
+                day1_ol5: '運河遊船 60 min',
+                day1_ol6: 'Foodhallen 晚餐',
+                day2_title: '荷蘭一日遊',
+                day2_outline_title: '行程大綱',
+                day2_ol1: '梵谷美術館',
+                day2_ol2: '國家博物館《夜巡》',
+                day2_ol3: '花市・辛格運河',
+                day2_ol4: '海尼根體驗館',
+                day2_ol5: '紅燈區散步',
+                day3_title: '移動至比利時',
+                day3_outline_title: '行程大綱',
+                day3_ol1: 'Albert Cuyp 市集',
+                day3_ol2: '買伴手禮（起司・木鞋）',
+                day3_ol3: '15:10 火車→安特衛普',
+                day3_ol4: 'Meir 大街・Grote Markt',
+                day3_ol5: '比利時啤酒 + 薯條',
+                day4_title: '布魯塞爾一日遊',
+                day4_outline_title: '行程大綱',
+                day4_ol1: '火車到布魯塞爾 45 min',
+                day4_ol2: '大廣場・尿尿小童',
+                day4_ol3: '聖于貝爾長廊・巧克力',
+                day4_ol4: '藝術山丘・馬格利特美術館',
+                day4_ol5: '漫畫牆巡禮',
+                day5_title: '移動至法國',
+                day5_outline_title: '行程大綱',
+                day5_ol1: '聖母大教堂・魯本斯',
+                day5_ol2: 'Het Steen・秘密小巷',
+                day5_ol3: '火車→巴黎 2-3 hrs',
+                day5_ol4: '塞納河畔看鐵塔夜燈',
+                day6_title: '巴黎',
+                day6_outline_title: '行程大綱',
+                day6_ol1: '羅浮宮（蒙娜麗莎）',
+                day6_ol2: '聖禮拜堂・聖母院',
+                day6_ol3: '聖路易島冰淇淋',
+                day6_ol4: '瑪黑區逛街晚餐',
+                day6_ol5: '塞納河遊船',
+                day7_title: '巴黎',
+                day7_outline_title: '行程大綱',
+                day7_ol1: '艾菲爾鐵塔',
+                day7_ol2: '凱旋門・香榭麗舍',
+                day7_ol3: '奧賽美術館',
+                day7_ol4: '蒙馬特・聖心堂日落',
+                day7_ol5: '法式大餐慶祝',
+                day8_title: '回程',
+                day8_outline_title: '行程大綱',
+                day8_ol1: '07:30 早餐・打包',
+                day8_ol2: '09:00 RER B → CDG 機場',
+                day8_ol3: '退稅・免稅店',
+                day8_ol4: '12:20 起飛回台北',
+                tag_nl: '🇳🇱 荷蘭',
+                tag_be: '🇧🇪 比利時',
+                tag_fr: '🇫🇷 法國',
+                tag_return: '回程',
+                // Checklist
+                checklist_title: '出發前準備清單',
+                checklist_subtitle: '勾選已完成的項目，追蹤準備進度',
+                checklist_progress: '完成進度',
+                cat1_title: '立即處理',
+                cat1_date: '5/20 - 5/25',
+                cat2_title: '一週內完成',
+                cat2_date: '5/25 - 6/1',
+                cat3_title: '出發前兩週',
+                cat3_date: '6/1 - 6/7',
+                cat4_title: '出發前一週',
+                cat4_date: '6/7 - 6/12',
+                cat5_title: '出發當天',
+                cat5_date: '6/13',
+                c1: '確認護照效期（需至 2026/12/20 後有效）',
+                c2: '確認 ETIAS 是否需要申請',
+                c3: '投保旅遊平安險（醫療≥3萬歐）',
+                c4: '通知銀行出國日期，避免鎖卡',
+                c5: '開啟信用卡海外交易 / 感應支付',
+                c6: '規劃每日行程大綱',
+                c7: '預訂熱門景點門票（羅浮宮等）',
+                c8: '下載離線地圖（荷比法）',
+                c9: '確認住宿 check-in 方式與時間',
+                c10: '研究當地交通卡（OV-chipkaart 等）',
+                c11: '兌換歐元現金（約 200-300€）',
+                c12: '購買歐洲 eSIM（Airalo / Ubigi）',
+                c13: '整理行李清單（6月歐洲 15-25°C）',
+                c14: '準備歐規轉接頭（Type C/F）',
+                c15: '備份重要文件（護照、機票、車票）',
+                c16: '下載實用 App（Google Translate、9292、SNCF）',
+                c17: '確認回程機場交通路線',
+                c18: '告知家人朋友行程表',
+                c19: '打包行李（液體隨身≤100ml）',
+                c20: '再次確認所有預訂日期時間',
+                c21: '充飽行動電源（≤100Wh）',
+                c22: '設定緊急聯絡資訊（駐外館處、保險專線）',
+                c23: '整理錢包（帶 1-2 張信用卡 + 提款卡）',
+                c24: '線上報到（起飛前 24-48 小時）',
+                c25: '最終確認：護照、手機、錢包、充電器',
+                c26: '確認航班狀態（延誤 / 登機門）',
+                c27: '提早 3 小時抵達機場',
+                c28: '轉接頭放隨身行李',
+                // Timeline
+                timeline_title: '準備時間軸',
+                timeline_subtitle: '從現在到出發的倒數規劃',
+                tl1_badge: '緊急',
+                tl1_title: '立即處理',
+                tl1_desc: '護照效期確認、ETIAS 申請、旅遊保險投保、通知銀行、開啟海外交易功能。這些事項有時效性或需要處理時間，務必最先完成。',
+                tl2_badge: '重要',
+                tl2_title: '規劃與預訂',
+                tl2_desc: '規劃每日行程、預訂熱門景點門票（羅浮宮、梵谷美術館等旺季容易售罄）、下載離線地圖、確認住宿入住方式、研究交通卡、換匯、購買 eSIM。',
+                tl3_badge: '準備',
+                tl3_title: '物品與文件',
+                tl3_desc: '整理行李清單（查看天氣預報）、準備歐規轉接頭、備份重要文件電子檔、下載翻譯與交通 App、確認回程機場交通、告知親友行程。',
+                tl4_badge: '最終確認',
+                tl4_title: '打包與確認',
+                tl4_desc: '打包行李、再次確認所有預訂、充飽行動電源、設定緊急聯絡資訊、整理錢包、線上報到（起飛前 24-48 小時開放）。',
+                tl5_badge: '出發',
+                tl5_title: '出發日',
+                tl5_desc: '最終確認隨身物品、查看航班狀態、提早 3 小時抵達機場。抵達阿姆斯特丹後，07:00 入境，10:00 與男友在中央車站會合，開始旅程！',
+                // Countdown
+                countdown_label: '距離出發還有',
+                countdown_days: '天',
+                countdown_hours: '時',
+                countdown_mins: '分',
+                countdown_dest: '2026/06/13 出發前往阿姆斯特丹',
+                // Footer
+                footer_text: '2026 歐洲旅行計畫 — 荷蘭・比利時・法國',
+                footer_wish: '祝旅途愉快 ✈️',
+                // Detail Section
+                detail_title: '詳細每日行程',
+                detail_subtitle: '展開查看每天的時間安排',
+                d1_header: '6/13 (六) — 抵達荷蘭・阿姆斯特丹',
+                d1_summary: '機場→中央車站會合→約旦區→安妮之家→運河遊船',
+                d1_0700: '抵達 Schiphol 機場，入境領行李',
+                d1_0730: '搭火車到 Amsterdam Centraal（約 15 分鐘，€5.50）',
+                d1_0800: '寄放行李（車站 Lockers 或住宿處）',
+                d1_0830: '早餐 + 散步 Damrak 大街、水壩廣場',
+                d1_1000: '與男友在中央車站會合',
+                d1_1030: '約旦區（Jordaan）散步 — 九小街逛特色小店',
+                d1_1200: '午餐：荷蘭炸肉丸（Bitterballen）或鯡魚三明治',
+                d1_1330: '安妮之家（Anne Frank House）或西教堂',
+                d1_1530: '運河遊船（Canal Cruise，約 60-75 分鐘）',
+                d1_1700: 'Check-in 住宿，稍作休息',
+                d1_1900: '晚餐：Foodhallen 美食市集或 De Pijp 區餐廳',
+                d1_2100: '運河邊散步看夜景，早點休息調時差',
+                d2_header: '6/14 (日) — 荷蘭一日遊',
+                d2_summary: '梵谷美術館→國家博物館→花市→海尼根體驗館',
+                d2_0900: '早餐',
+                d2_0930: '梵谷美術館（Van Gogh Museum）— 需提前訂票',
+                d2_1200: '午餐：博物館廣場（Museumplein）附近',
+                d2_1330: '國家博物館（Rijksmuseum）— 《夜巡》等名畫',
+                d2_1500: '花市（Bloemenmarkt）+ 辛格運河散步',
+                d2_1630: '海尼根體驗館（Heineken Experience）',
+                d2_1800: '晚餐：Leidseplein 或 Rembrandtplein 附近',
+                d2_2000: '紅燈區散步 — 感受獨特氛圍',
+                d3_header: '6/15 (一) — 阿姆斯特丹→安特衛普',
+                d3_summary: '市集→伴手禮→火車→安特衛普車站→Grote Markt',
+                d3_0900: '早餐',
+                d3_0930: 'Albert Cuyp Market — 現做荷蘭鬆餅 Stroopwafel',
+                d3_1100: '購買伴手禮（起司、木鞋小飾品）',
+                d3_1200: '午餐 + 回住宿取行李',
+                d3_1330: '前往 Amsterdam Centraal 車站',
+                d3_1510: '火車出發：阿姆斯特丹→安特衛普',
+                d3_1630: '抵達安特衛普中央車站（世界最美車站之一）',
+                d3_1700: 'Check-in 住宿',
+                d3_1730: '散步 Meir 購物大街→Grote Markt 大廣場',
+                d3_1900: '晚餐：比利時啤酒 + 薯條（Frituur）',
+                d4_header: '6/16 (二) — 布魯塞爾一日遊',
+                d4_summary: '大廣場→尿尿小童→聖于貝爾長廊→藝術山丘→漫畫牆',
+                d4_0800: '早餐',
+                d4_0830: '搭火車到布魯塞爾（約 45 分鐘）',
+                d4_0930: '大廣場（Grand Place）— UNESCO 世界遺產',
+                d4_1030: '尿尿小童（Manneken Pis）+ 周邊巷弄',
+                d4_1100: '聖于貝爾長廊（Galeries Royales）— 巧克力店巡禮',
+                d4_1200: '午餐：比利時淡菜鍋（Moules-frites）',
+                d4_1330: '藝術山丘（Mont des Arts）— 俯瞰市景',
+                d4_1430: '馬格利特美術館（Musée Magritte）',
+                d4_1530: '比利時鬆餅（Liège waffle）+ 咖啡',
+                d4_1630: '漫畫牆巡禮（Comic Strip Route）',
+                d4_1730: '搭火車回安特衛普',
+                d4_1900: '晚餐：安特衛普當地餐廳',
+                d5_header: '6/17 (三) — 安特衛普→巴黎',
+                d5_summary: '聖母大教堂→Het Steen→秘密小巷→火車到巴黎',
+                d5_0900: '早餐',
+                d5_0930: '聖母大教堂（Cathedral of Our Lady）— 魯本斯名畫',
+                d5_1030: 'Het Steen 城堡 + 斯海爾德河畔散步',
+                d5_1130: 'Vlaaikensgang 秘密小巷 — 中世紀隱藏通道',
+                d5_1200: '午餐 + 取行李',
+                d5_1300: '前往車站，搭火車到巴黎（約 2-3 小時）',
+                d5_1600: '抵達巴黎，Check-in 住宿',
+                d5_1930: '晚餐：住宿附近法式小酒館（Bistro）',
+                d5_2130: '塞納河畔散步看艾菲爾鐵塔夜間燈光',
+                d6_header: '6/18 (四) — 巴黎・經典路線',
+                d6_summary: '羅浮宮→聖禮拜堂→聖母院→瑪黑區→塞納河遊船',
+                d6_0830: '早餐：法式可頌 + 咖啡',
+                d6_0900: '羅浮宮（Louvre）— 蒙娜麗莎、勝利女神、維納斯',
+                d6_1200: '杜樂麗花園（Jardin des Tuileries）散步',
+                d6_1230: '午餐：Rue de Rivoli 附近',
+                d6_1400: '聖禮拜堂（Sainte-Chapelle）— 絕美彩繪玻璃',
+                d6_1500: '巴黎聖母院（Notre-Dame）+ 西堤島散步',
+                d6_1600: '聖路易島 — Berthillon 冰淇淋',
+                d6_1730: '瑪黑區（Le Marais）— 時尚小店',
+                d6_1900: '晚餐：瑪黑區法式餐廳',
+                d6_2100: '塞納河遊船（Bateaux Mouches，約 1 小時）',
+                d7_header: '6/19 (五) — 巴黎・左岸與鐵塔',
+                d7_summary: '艾菲爾鐵塔→凱旋門→奧賽美術館→蒙馬特日落',
+                d7_0830: '早餐',
+                d7_0900: '艾菲爾鐵塔（登塔或戰神廣場拍照）',
+                d7_1030: '步行到凱旋門（沿香榭麗舍大道）',
+                d7_1130: '登凱旋門頂樓俯瞰巴黎',
+                d7_1230: '午餐：香榭麗舍大道附近',
+                d7_1400: '奧賽美術館（Musée d\'Orsay）— 印象派名畫',
+                d7_1530: '聖日耳曼德佩區 — 花神咖啡館（Café de Flore）',
+                d7_1630: '蒙馬特（Montmartre）+ 聖心堂',
+                d7_1800: '蒙馬特看日落',
+                d7_1930: '最後晚餐：慶祝旅程的法式大餐',
+                d8_header: '6/20 (六) — 回程',
+                d8_summary: '早餐→機場→退稅→12:20 起飛回台北',
+                d8_0700: '起床、最後整理行李',
+                d8_0730: '早餐：麵包店買可頌',
+                d8_0830: 'Check-out',
+                d8_0900: '前往 CDG 機場（RER B，約 35-50 分鐘）',
+                d8_1000: '辦理登機、退稅、逛免稅店',
+                d8_1220: '起飛回台北',
+                ticket_title: '需要提前訂票的景點',
+                ticket_1: '梵谷美術館（6月旺季很快售罄）',
+                ticket_2: '羅浮宮（指定時段入場）',
+                ticket_3: '安妮之家（每週二釋出 6 週後的票，非常搶手）',
+                ticket_4: '艾菲爾鐵塔登塔',
+                ticket_5: '奧賽美術館',
+                // Map & Alternatives
+                map_label: '📍 今日地圖',
+                alt_label: '💡 備選行程',
+                d1_alt1: 'NEMO 科學博物館 — 適合互動體驗',
+                d1_alt2: 'A\'DAM Lookout 觀景台 — 北岸高空鞦韆',
+                d1_alt3: 'Vondelpark 公園野餐 — 如果天氣好想放鬆',
+                d2_alt1: '阿姆斯特丹皇宮（Royal Palace）— 水壩廣場旁',
+                d2_alt2: 'Moco Museum — 班克斯等當代藝術',
+                d2_alt3: '租腳踏車遊運河 — 最道地的體驗方式',
+                d2_alt4: '贊丹風車村（Zaanse Schans）— 半日遊近郊風車',
+                d3_alt1: 'MAS 博物館（Museum aan de Stroom）— 頂樓免費觀景',
+                d3_alt2: '安特衛普動物園 — 就在中央車站旁',
+                d3_alt3: '鑽石區散步 — 安特衛普是世界鑽石之都',
+                d4_alt1: '原子塔（Atomium）+ Mini-Europe — 需多留 2 小時',
+                d4_alt2: '比利時漫畫藝術中心 — 丁丁迷必去',
+                d4_alt3: '聖米歇爾大教堂 — 免費參觀的哥德式教堂',
+                d4_alt4: 'Delirium Café — 擁有 2000+ 種啤酒的酒吧',
+                d5_alt1: '魯本斯故居（Rubens House）— 如果早上有時間',
+                d5_alt2: '安特衛普時尚博物館（MoMu）— 時尚愛好者',
+                d5_alt3: '抵達巴黎後逛拉丁區（Quartier Latin）',
+                d6_alt1: '橘園美術館（Musée de l\'Orangerie）— 莫內睡蓮',
+                d6_alt2: '巴黎地下墓穴（Catacombes）— 獨特體驗',
+                d6_alt3: '莎士比亞書店（Shakespeare & Co.）— 聖母院對面',
+                d6_alt4: '龐畢度中心（Centre Pompidou）— 現代藝術',
+                d7_alt1: '凡爾賽宮（Versailles）— 需整個半天，替代奧賽+蒙馬特',
+                d7_alt2: '拉法葉百貨（Galeries Lafayette）— 頂樓免費觀景台',
+                d7_alt3: '盧森堡公園（Jardin du Luxembourg）— 悠閒散步',
+                d7_alt4: '紅磨坊（Moulin Rouge）外觀拍照 — 在蒙馬特山腳',
+                d8_alt1: '如果航班延誤：機場附近 Aéroville 購物中心',
+                d8_alt2: '提早出門可繞去附近麵包店買法式甜點當伴手禮',
+            },
+            en: {
+                // Nav
+                nav_title: 'Europe Trip Plan',
+                nav_itinerary: 'Itinerary',
+                nav_detail: 'Details',
+                nav_checklist: 'Checklist',
+                nav_timeline: 'Timeline',
+                nav_duration: '8 Days',
+                // Hero
+                hero_title: 'Netherlands <span class="text-primary">・</span> Belgium <span class="text-primary">・</span> France',
+                hero_route: 'Amsterdam → Antwerp → Brussels → Paris',
+                hero_dates: '6/13 (Sat) - 6/20 (Sat)',
+                hero_countries: '3 Countries, 4 Cities',
+                // Itinerary
+                itinerary_title: 'Daily Itinerary',
+                itinerary_subtitle: 'Click cards to expand details',
+                day1_title: 'Arrive in Netherlands',
+                day1_outline_title: 'Outline',
+                day1_ol1: '07:00 Airport → train to city center',
+                day1_ol2: '10:00 Meet at Central Station',
+                day1_ol3: 'Jordaan・De 9 Straatjes walk',
+                day1_ol4: 'Anne Frank House / Westerkerk',
+                day1_ol5: 'Canal Cruise 60 min',
+                day1_ol6: 'Dinner at Foodhallen',
+                day2_title: 'Netherlands Day',
+                day2_outline_title: 'Outline',
+                day2_ol1: 'Van Gogh Museum',
+                day2_ol2: 'Rijksmuseum (The Night Watch)',
+                day2_ol3: 'Flower Market・Singel canal',
+                day2_ol4: 'Heineken Experience',
+                day2_ol5: 'Red Light District walk',
+                day3_title: 'Travel to Belgium',
+                day3_outline_title: 'Outline',
+                day3_ol1: 'Albert Cuyp Market',
+                day3_ol2: 'Souvenirs (cheese・clogs)',
+                day3_ol3: '15:10 Train → Antwerp',
+                day3_ol4: 'Meir street・Grote Markt',
+                day3_ol5: 'Belgian beer + frites',
+                day4_title: 'Brussels Day Trip',
+                day4_outline_title: 'Outline',
+                day4_ol1: 'Train to Brussels 45 min',
+                day4_ol2: 'Grand Place・Manneken Pis',
+                day4_ol3: 'Royal Galleries・chocolate',
+                day4_ol4: 'Mont des Arts・Magritte Museum',
+                day4_ol5: 'Comic Strip Route',
+                day5_title: 'Travel to France',
+                day5_outline_title: 'Outline',
+                day5_ol1: 'Cathedral・Rubens paintings',
+                day5_ol2: 'Het Steen・secret alley',
+                day5_ol3: 'Train → Paris 2-3 hrs',
+                day5_ol4: 'Seine walk, Eiffel Tower lights',
+                day6_title: 'Paris',
+                day6_outline_title: 'Outline',
+                day6_ol1: 'Louvre (Mona Lisa)',
+                day6_ol2: 'Sainte-Chapelle・Notre-Dame',
+                day6_ol3: 'Île Saint-Louis ice cream',
+                day6_ol4: 'Le Marais shopping & dinner',
+                day6_ol5: 'Seine river cruise',
+                day7_title: 'Paris',
+                day7_outline_title: 'Outline',
+                day7_ol1: 'Eiffel Tower',
+                day7_ol2: 'Arc de Triomphe・Champs-Élysées',
+                day7_ol3: 'Musée d\'Orsay',
+                day7_ol4: 'Montmartre・Sacré-Cœur sunset',
+                day7_ol5: 'Celebratory French feast',
+                day8_title: 'Return',
+                day8_outline_title: 'Outline',
+                day8_ol1: '07:30 Breakfast・pack up',
+                day8_ol2: '09:00 RER B → CDG Airport',
+                day8_ol3: 'Tax refund・duty-free',
+                day8_ol4: '12:20 Depart for Taipei',
+                tag_nl: '🇳🇱 Netherlands',
+                tag_be: '🇧🇪 Belgium',
+                tag_fr: '🇫🇷 France',
+                tag_return: 'Return',
+                // Checklist
+                checklist_title: 'Pre-Departure Checklist',
+                checklist_subtitle: 'Check off completed items to track progress',
+                checklist_progress: 'Progress',
+                cat1_title: 'Do Immediately',
+                cat1_date: '5/20 - 5/25',
+                cat2_title: 'Within One Week',
+                cat2_date: '5/25 - 6/1',
+                cat3_title: 'Two Weeks Before',
+                cat3_date: '6/1 - 6/7',
+                cat4_title: 'One Week Before',
+                cat4_date: '6/7 - 6/12',
+                cat5_title: 'Departure Day',
+                cat5_date: '6/13',
+                c1: 'Check passport validity (must be valid until 2026/12/20)',
+                c2: 'Check if ETIAS application is required',
+                c3: 'Purchase travel insurance (medical ≥ €30,000)',
+                c4: 'Notify bank of travel dates to avoid card block',
+                c5: 'Enable overseas transactions / contactless payment',
+                c6: 'Plan daily itinerary outline',
+                c7: 'Book popular attraction tickets (Louvre, etc.)',
+                c8: 'Download offline maps (NL, BE, FR)',
+                c9: 'Confirm accommodation check-in method & time',
+                c10: 'Research local transit cards (OV-chipkaart, etc.)',
+                c11: 'Exchange euros (approx. €200-300)',
+                c12: 'Buy Europe eSIM (Airalo / Ubigi)',
+                c13: 'Prepare packing list (June Europe: 15-25°C)',
+                c14: 'Get EU power adapter (Type C/F)',
+                c15: 'Backup important docs (passport, tickets)',
+                c16: 'Download useful apps (Google Translate, 9292, SNCF)',
+                c17: 'Confirm return airport transport route',
+                c18: 'Share itinerary with family/friends',
+                c19: 'Pack luggage (liquids carry-on ≤ 100ml)',
+                c20: 'Re-confirm all booking dates & times',
+                c21: 'Fully charge power bank (≤ 100Wh)',
+                c22: 'Set up emergency contacts (embassy, insurance hotline)',
+                c23: 'Organize wallet (bring 1-2 credit cards + debit card)',
+                c24: 'Online check-in (24-48 hrs before departure)',
+                c25: 'Final check: passport, phone, wallet, charger',
+                c26: 'Check flight status (delays / gate changes)',
+                c27: 'Arrive at airport 3 hours early',
+                c28: 'Put power adapter in carry-on',
+                // Timeline
+                timeline_title: 'Preparation Timeline',
+                timeline_subtitle: 'Countdown plan from now to departure',
+                tl1_badge: 'Urgent',
+                tl1_title: 'Immediate Actions',
+                tl1_desc: 'Verify passport validity, apply for ETIAS, purchase travel insurance, notify bank, enable overseas transactions. These are time-sensitive and must be done first.',
+                tl2_badge: 'Important',
+                tl2_title: 'Plan & Book',
+                tl2_desc: 'Plan daily itinerary, book popular attraction tickets (Louvre, Van Gogh Museum sell out in peak season), download offline maps, confirm check-in, research transit cards, exchange currency, buy eSIM.',
+                tl3_badge: 'Prepare',
+                tl3_title: 'Items & Documents',
+                tl3_desc: 'Prepare packing list (check weather forecast), get EU power adapter, backup important documents digitally, download translation & transit apps, confirm return airport route, share itinerary with family.',
+                tl4_badge: 'Final Check',
+                tl4_title: 'Pack & Confirm',
+                tl4_desc: 'Pack luggage, re-confirm all bookings, fully charge power bank, set up emergency contacts, organize wallet, online check-in (opens 24-48 hrs before departure).',
+                tl5_badge: 'Departure',
+                tl5_title: 'Departure Day',
+                tl5_desc: 'Final check of belongings, check flight status, arrive at airport 3 hours early. After arriving in Amsterdam at 07:00, meet boyfriend at Central Station at 10:00. Let the trip begin!',
+                // Countdown
+                countdown_label: 'Time until departure',
+                countdown_days: 'Days',
+                countdown_hours: 'Hours',
+                countdown_mins: 'Mins',
+                countdown_dest: '2026/06/13 Departure to Amsterdam',
+                // Footer
+                footer_text: '2026 Europe Trip — Netherlands・Belgium・France',
+                footer_wish: 'Bon Voyage ✈️',
+                // Detail Section
+                detail_title: 'Detailed Daily Schedule',
+                detail_subtitle: 'Expand to see hourly plans for each day',
+                d1_header: '6/13 (Sat) — Arrive in Netherlands',
+                d1_summary: 'Airport → Meet at Central Station → Jordaan → Anne Frank House → Canal Cruise',
+                d1_0700: 'Arrive at Schiphol Airport, immigration & baggage',
+                d1_0730: 'Train to Amsterdam Centraal (15 min, €5.50)',
+                d1_0800: 'Store luggage (station lockers or accommodation)',
+                d1_0830: 'Breakfast + walk along Damrak & Dam Square',
+                d1_1000: 'Meet boyfriend at Central Station',
+                d1_1030: 'Jordaan district walk — De 9 Straatjes boutique shops',
+                d1_1200: 'Lunch: Dutch Bitterballen or herring sandwich',
+                d1_1330: 'Anne Frank House or Westerkerk',
+                d1_1530: 'Canal Cruise (approx. 60-75 min)',
+                d1_1700: 'Check-in accommodation, rest',
+                d1_1900: 'Dinner: Foodhallen food market or De Pijp area',
+                d1_2100: 'Evening canal walk, early rest (jet lag)',
+                d2_header: '6/14 (Sun) — Full Day in Netherlands',
+                d2_summary: 'Van Gogh Museum → Rijksmuseum → Flower Market → Heineken Experience',
+                d2_0900: 'Breakfast',
+                d2_0930: 'Van Gogh Museum — book tickets in advance',
+                d2_1200: 'Lunch: near Museumplein',
+                d2_1330: 'Rijksmuseum — The Night Watch & masterpieces',
+                d2_1500: 'Bloemenmarkt (Flower Market) + Singel canal walk',
+                d2_1630: 'Heineken Experience',
+                d2_1800: 'Dinner: near Leidseplein or Rembrandtplein',
+                d2_2000: 'Red Light District walk — unique atmosphere',
+                d3_header: '6/15 (Mon) — Amsterdam → Antwerp',
+                d3_summary: 'Market → Souvenirs → Train → Antwerp Station → Grote Markt',
+                d3_0900: 'Breakfast',
+                d3_0930: 'Albert Cuyp Market — fresh Stroopwafels',
+                d3_1100: 'Buy souvenirs (cheese, wooden shoe trinkets)',
+                d3_1200: 'Lunch + pick up luggage',
+                d3_1330: 'Head to Amsterdam Centraal station',
+                d3_1510: 'Train departs: Amsterdam → Antwerp',
+                d3_1630: 'Arrive Antwerp Central (one of the world\'s most beautiful stations)',
+                d3_1700: 'Check-in accommodation',
+                d3_1730: 'Walk Meir shopping street → Grote Markt square',
+                d3_1900: 'Dinner: Belgian beer + frites (Frituur)',
+                d4_header: '6/16 (Tue) — Brussels Day Trip',
+                d4_summary: 'Grand Place → Manneken Pis → Royal Galleries → Mont des Arts → Comic Walls',
+                d4_0800: 'Breakfast',
+                d4_0830: 'Train to Brussels (approx. 45 min)',
+                d4_0930: 'Grand Place — UNESCO World Heritage Site',
+                d4_1030: 'Manneken Pis + surrounding alleys',
+                d4_1100: 'Galeries Royales Saint-Hubert — chocolate shops',
+                d4_1200: 'Lunch: Belgian mussels (Moules-frites)',
+                d4_1330: 'Mont des Arts — panoramic city view',
+                d4_1430: 'Musée Magritte',
+                d4_1530: 'Liège waffle + coffee break',
+                d4_1630: 'Comic Strip Route walk',
+                d4_1730: 'Train back to Antwerp',
+                d4_1900: 'Dinner: local Antwerp restaurant',
+                d5_header: '6/17 (Wed) — Antwerp → Paris',
+                d5_summary: 'Cathedral → Het Steen → Secret alley → Train to Paris',
+                d5_0900: 'Breakfast',
+                d5_0930: 'Cathedral of Our Lady — Rubens paintings',
+                d5_1030: 'Het Steen castle + Scheldt riverside walk',
+                d5_1130: 'Vlaaikensgang secret alley — medieval hidden passage',
+                d5_1200: 'Lunch + pick up luggage',
+                d5_1300: 'Head to station, train to Paris (approx. 2-3 hrs)',
+                d5_1600: 'Arrive Paris, check-in accommodation',
+                d5_1930: 'Dinner: local French bistro',
+                d5_2130: 'Seine riverside walk, Eiffel Tower night lights',
+                d6_header: '6/18 (Thu) — Paris Classic Route',
+                d6_summary: 'Louvre → Sainte-Chapelle → Notre-Dame → Le Marais → Seine Cruise',
+                d6_0830: 'Breakfast: croissant + coffee',
+                d6_0900: 'Louvre Museum — Mona Lisa, Winged Victory, Venus',
+                d6_1200: 'Jardin des Tuileries stroll',
+                d6_1230: 'Lunch: near Rue de Rivoli',
+                d6_1400: 'Sainte-Chapelle — stunning stained glass',
+                d6_1500: 'Notre-Dame Cathedral + Île de la Cité walk',
+                d6_1600: 'Île Saint-Louis — Berthillon ice cream',
+                d6_1730: 'Le Marais district — trendy boutiques',
+                d6_1900: 'Dinner: French restaurant in Le Marais',
+                d6_2100: 'Seine river cruise (Bateaux Mouches, ~1 hr)',
+                d7_header: '6/19 (Fri) — Paris Left Bank & Tower',
+                d7_summary: 'Eiffel Tower → Arc de Triomphe → Musée d\'Orsay → Montmartre sunset',
+                d7_0830: 'Breakfast',
+                d7_0900: 'Eiffel Tower (climb or photos at Champ de Mars)',
+                d7_1030: 'Walk to Arc de Triomphe (via Champs-Élysées)',
+                d7_1130: 'Climb Arc de Triomphe rooftop for panoramic view',
+                d7_1230: 'Lunch: near Champs-Élysées',
+                d7_1400: 'Musée d\'Orsay — Impressionist masterpieces',
+                d7_1530: 'Saint-Germain-des-Prés — Café de Flore',
+                d7_1630: 'Montmartre + Sacré-Cœur Basilica',
+                d7_1800: 'Sunset at Montmartre',
+                d7_1930: 'Farewell dinner: celebratory French feast',
+                d8_header: '6/20 (Sat) — Return Home',
+                d8_summary: 'Breakfast → Airport → Tax refund → 12:20 flight to Taipei',
+                d8_0700: 'Wake up, final packing',
+                d8_0730: 'Breakfast: grab croissants from bakery',
+                d8_0830: 'Check-out',
+                d8_0900: 'Head to CDG Airport (RER B, ~35-50 min)',
+                d8_1000: 'Check-in, tax refund, duty-free shopping',
+                d8_1220: 'Depart for Taipei',
+                ticket_title: 'Attractions Requiring Advance Booking',
+                ticket_1: 'Van Gogh Museum (sells out fast in June)',
+                ticket_2: 'Louvre Museum (timed entry)',
+                ticket_3: 'Anne Frank House (tickets released Tuesdays for 6 weeks ahead, very competitive)',
+                ticket_4: 'Eiffel Tower summit access',
+                ticket_5: 'Musée d\'Orsay',
+                // Map & Alternatives
+                map_label: '📍 Today\'s Map',
+                alt_label: '💡 Alternative Activities',
+                d1_alt1: 'NEMO Science Museum — interactive experience',
+                d1_alt2: 'A\'DAM Lookout — rooftop swing on the north bank',
+                d1_alt3: 'Vondelpark picnic — if weather is nice and you want to relax',
+                d2_alt1: 'Royal Palace Amsterdam — next to Dam Square',
+                d2_alt2: 'Moco Museum — Banksy & contemporary art',
+                d2_alt3: 'Rent a bike along the canals — the most local experience',
+                d2_alt4: 'Zaanse Schans windmill village — half-day trip',
+                d3_alt1: 'MAS Museum (Museum aan de Stroom) — free rooftop view',
+                d3_alt2: 'Antwerp Zoo — right next to Central Station',
+                d3_alt3: 'Diamond district walk — Antwerp is the world diamond capital',
+                d4_alt1: 'Atomium + Mini-Europe — needs extra 2 hours',
+                d4_alt2: 'Belgian Comic Strip Center — a must for Tintin fans',
+                d4_alt3: 'St. Michael\'s Cathedral — free Gothic cathedral visit',
+                d4_alt4: 'Delirium Café — bar with 2000+ beer varieties',
+                d5_alt1: 'Rubens House — if you have time in the morning',
+                d5_alt2: 'MoMu Fashion Museum — for fashion lovers',
+                d5_alt3: 'Explore Quartier Latin after arriving in Paris',
+                d6_alt1: 'Musée de l\'Orangerie — Monet\'s Water Lilies',
+                d6_alt2: 'Paris Catacombs — unique underground experience',
+                d6_alt3: 'Shakespeare & Company bookshop — across from Notre-Dame',
+                d6_alt4: 'Centre Pompidou — modern & contemporary art',
+                d7_alt1: 'Palace of Versailles — needs half day, replaces Orsay + Montmartre',
+                d7_alt2: 'Galeries Lafayette — free rooftop terrace view',
+                d7_alt3: 'Jardin du Luxembourg — relaxing stroll',
+                d7_alt4: 'Moulin Rouge photo op — at the foot of Montmartre',
+                d8_alt1: 'If flight delayed: Aéroville shopping center near airport',
+                d8_alt2: 'Leave early to grab French pastries as souvenirs from a bakery',
+            }
+        };
+
+        let currentLang = localStorage.getItem('trip-lang') || 'zh';
+
+        function applyTranslations(lang) {
+            const t = translations[lang];
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (t[key]) el.textContent = t[key];
+            });
+            document.querySelectorAll('[data-i18n-html]').forEach(el => {
+                const key = el.getAttribute('data-i18n-html');
+                if (t[key]) el.innerHTML = t[key];
+            });
+            // Update lang attribute
+            document.documentElement.lang = lang === 'zh' ? 'zh-TW' : 'en';
+            // Update toggle button label
+            document.getElementById('lang-label').textContent = lang === 'zh' ? 'EN' : '中';
+            // Update page title
+            document.title = lang === 'zh' ? '歐洲旅行計畫 | 荷蘭・比利時・法國' : 'Europe Trip Plan | Netherlands・Belgium・France';
+        }
+
+        function toggleLanguage() {
+            currentLang = currentLang === 'zh' ? 'en' : 'zh';
+            localStorage.setItem('trip-lang', currentLang);
+            applyTranslations(currentLang);
+            updateProgress(); // re-render progress text
+        }
+
+        // ===== Checklist Progress =====
+        function updateProgress() {
+            const checkboxes = document.querySelectorAll('.checklist-item input[type="checkbox"]');
+            const checked = document.querySelectorAll('.checklist-item input[type="checkbox"]:checked');
+            const total = checkboxes.length;
+            const done = checked.length;
+            const percent = total > 0 ? (done / total) * 100 : 0;
+
+            document.getElementById('progress-text').textContent = `${done} / ${total}`;
+            document.getElementById('progress-bar').style.width = `${percent}%`;
+
+            // Save to localStorage
+            const state = {};
+            checkboxes.forEach(cb => { state[cb.id] = cb.checked; });
+            localStorage.setItem('trip-checklist', JSON.stringify(state));
+        }
+
+        function loadChecklistState() {
+            const saved = localStorage.getItem('trip-checklist');
+            if (saved) {
+                const state = JSON.parse(saved);
+                Object.keys(state).forEach(id => {
+                    const cb = document.getElementById(id);
+                    if (cb) cb.checked = state[id];
+                });
+            }
+            updateProgress();
+        }
+
+        document.querySelectorAll('.checklist-item input[type="checkbox"]').forEach(cb => {
+            cb.addEventListener('change', updateProgress);
+        });
+
+        // ===== Countdown Timer =====
+        function updateCountdown() {
+            const departure = new Date('2026-06-13T00:00:00+08:00');
+            const now = new Date();
+            const diff = departure - now;
+
+            if (diff <= 0) {
+                document.getElementById('countdown-days').textContent = '0';
+                document.getElementById('countdown-hours').textContent = '0';
+                document.getElementById('countdown-mins').textContent = '0';
+                return;
+            }
+
+            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const mins = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+
+            document.getElementById('countdown-days').textContent = days;
+            document.getElementById('countdown-hours').textContent = hours;
+            document.getElementById('countdown-mins').textContent = mins;
+        }
+
+        // ===== Smooth Scroll =====
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+
+        // ===== Language Toggle =====
+        document.getElementById('lang-toggle').addEventListener('click', toggleLanguage);
+
+        // ===== Accordion Toggle =====
+        document.querySelectorAll('.day-toggle').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const targetId = this.getAttribute('data-target');
+                const target = document.getElementById(targetId);
+                const isOpen = target.classList.contains('open');
+
+                // Close all
+                document.querySelectorAll('.day-detail').forEach(d => d.classList.remove('open'));
+                document.querySelectorAll('.day-toggle').forEach(b => {
+                    b.classList.remove('active');
+                    b.setAttribute('aria-expanded', 'false');
+                });
+
+                // Open clicked if it was closed
+                if (!isOpen) {
+                    target.classList.add('open');
+                    this.classList.add('active');
+                    this.setAttribute('aria-expanded', 'true');
+                }
+            });
+        });
+
+        // ===== Initialize =====
+        loadChecklistState();
+        updateCountdown();
+        setInterval(updateCountdown, 60000);
+        applyTranslations(currentLang);
+    </script>
+
+</body>
+</html>
